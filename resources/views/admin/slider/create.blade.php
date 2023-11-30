@@ -43,9 +43,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /Profile Photo-->
+                    <!-- /Photo-->
                     <hr class="my-0" />
-                    <!-- Account -->
+                    <!-- Category -->
                     <div class="card-body">
                         <div class="row">
                             <div class="mb-3 col-md-6">

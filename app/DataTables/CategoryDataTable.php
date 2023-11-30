@@ -23,6 +23,19 @@ class CategoryDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', 'category.action')
+            ->addColumn('action', function ($query){
+                $edit = '<a href="'.route('admin.category.edit', $query->id).'" type="button" class="btn btn-label-primary waves-effect me-2 mb-1 mt-1"><i class="ti-xs ti ti ti-edit"></i></a>';
+                $delete = '<a href="'.route('admin.category.destroy', $query->id).'" type="button" id="confirm-color" class="btn btn-label-danger delete-item waves-effect me-2 mb-1 mt-1"><i class="ti-xs ti ti-trash"></i></a>';
+
+                return $edit.$delete;
+            })
+            ->addColumn('status', function ($query){
+                return ($query->status === 1) ? '<div class="badge bg-gradient-success rounded-pill ms-auto">Aktif</div>' : '<div class="badge bg-gradient-danger rounded-pill ms-auto">Pasif</div>';
+            })
+            ->addColumn('show_at_home', function ($query){
+                return ($query->show_at_home === 1) ? '<div class="badge bg-gradient-primary rounded-pill ms-auto">Gösteriliyor</div>' : '<div class="badge bg-gradient-warning rounded-pill ms-auto">Gizlendi</div>';
+            })
+            ->rawColumns(['action', 'status','show_at_home'])
             ->setRowId('id');
     }
 
@@ -44,7 +57,7 @@ class CategoryDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -62,15 +75,17 @@ class CategoryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('name')->title('Kategori Adı'),
+            Column::make('slug')->title('Kategori Uzantısı'),
+            Column::make('status')->width(100)->title('Durum'),
+            Column::make('show_at_home')->width(100)->title('Anasayfa Gösterimi'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(200)
+                ->title('İşlemler')
+                ->addClass('text-center'),
         ];
     }
 
