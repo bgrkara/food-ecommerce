@@ -28,7 +28,11 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
+        //Admin Kullanıcısı Giriş Yaptığında Admin Sayfasına Yönlendirir
+        if ($request->user()->role === 'admin'){
+            toastr('Admin Girişi Başarılı! Hoşgeldiniz 👋', 'success');
+            return redirect()->intended(RouteServiceProvider::ADMIN);
+        }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

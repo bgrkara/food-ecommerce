@@ -1,39 +1,44 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
-        @csrf
-
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+@extends('frontend.layouts.master')
+@section('content')
+    <div class="ps-account">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6">
+                    <form method="POST" action="{{ route('password.store') }}">
+                        @csrf
+                        <input type="hidden" name="token" value="{{ $request->route('token') }}">
+                        <div class="ps-form--review">
+                            <h2 class="ps-form__title">ŞİFRE YENİLE</h2>
+                            <!-- Email Address -->
+                            <div class="ps-form__group">
+                                <label class="ps-form__label">E-posta Adresi *</label>
+                                <input id="email" name="email" class="form-control ps-form__input" type="email" value="{{ old('email', $request->email) }}" required autofocus autocomplete="username">
+                            </div>
+                            <!-- Password -->
+                            <div class="ps-form__group">
+                                <label class="ps-form__label">Şifre *</label>
+                                <div class="input-group">
+                                    <input id="password" name="password" class="form-control ps-form__input" type="password" required autocomplete="new-password">
+                                    <div class="input-group-append"><a class="fa fa-eye-slash toogle-password" href="javascript: vois(0);"></a></div>
+                                </div>
+                            </div>
+                            <!-- Confirm Password -->
+                            <div class="ps-form__group">
+                                <label class="ps-form__label">Şifre Tekrar *</label>
+                                <div class="input-group">
+                                    <input id="password_confirmation" name="password_confirmation" class="form-control ps-form__input" type="password" required autocomplete="new-password">
+                                    <div class="input-group-append"><a class="fa fa-eye-slash toogle-password" href="javascript: vois(0);"></a></div>
+                                </div>
+                                <p class="ps-form__text">İpucu: Şifre en az 8 karakter uzunluğunda olmalıdır. Daha güçlü kılmak için büyük ve küçük harfler, sayılar ve "#,@,*" gibi semboller kullanın.</p>
+                            </div>
+                            <div class="ps-form__submit">
+                                <button class="ps-btn ps-btn--warning">{{ __('Şifreyi Yenile') }}</button>
+                            </div>
+                            <div class="ps-form__group"><a class="ps-account__link" href="{{ route('login') }}">Zaten Üye misiniz ?</a></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+@endsection

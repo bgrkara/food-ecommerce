@@ -1,0 +1,82 @@
+/*
+Dashboard CSS
+*/
+
+.dash-image{
+    min-width: 150px;
+    max-width: 150px;
+    min-height: 150px;
+    background-color: #f8f9fa;
+    border: 4px solid #b3c1e0;
+}
+.dash-center{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+.dash-bg-white{
+    background-color: #fbfbfb;
+    border: 1px solid #f0f2f5;
+}
+.dash-pt-4{
+    padding: 1.5rem 0 0 0;
+}
+.dash-mt-1{
+    margin-top: 15px;
+}
+.dash-order{
+    min-height: 193px;
+}
+.ps-section--categories .ps-categories__item{
+    width: 100% !important;
+}
+.ps-section--categories .ps-categories__name{
+    margin-bottom: 16px !important;
+}
+.ps-section--categories .ps-categories__link img{
+    max-width: 65px !important;
+}
+.ps-form--review .ps-form__title{
+    font-size: 19px !important;
+}
+.menu--mobile li{
+    list-style-type: none;
+}
+.menu--mobile li i{
+    padding: 10px;
+}
+.menu--mobile li a{
+    background-color: #f0f2f5;
+    border-radius: 6px;
+    font-size: 14px !important;
+}
+.user-name{
+    color: #103178;
+    font-size: 16px;
+    font-weight: 500;
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+.dash-header-img label i{
+    background-color: #fbfbfb;
+    padding: 6px;
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+    right: 145px;
+    bottom: 33px;
+    pointer-events: auto;
+}
+.fa-camera-retro:hover{
+    opacity: 0.7;
+}
+.exit-form{
+    background-color: #f0f2f5;
+}
+.exit-form a {
+    font-weight: 600;
+    color: #103178;
+    text-transform: capitalize;
+}
+

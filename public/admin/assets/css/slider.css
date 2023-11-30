@@ -1,0 +1,72 @@
+
+.post {
+    width: auto;
+}
+.post .avatar {
+    width: 250px;
+    height: 250px;
+    background-color: #ccc;
+    border-radius: 25%;
+    margin: 8px;
+    background-image: linear-gradient(90deg, #ddd 0px, #e8e8e8 40px, #ddd 80px);
+    background-size: 600px;
+    animation: shine-avatar 1.6s infinite linear;
+}
+.post .line {
+    width: 140px;
+    height: 20px;
+    margin-top: 12px;
+    border-radius: 7px;
+    background-image: linear-gradient(90deg, #ddd 0px, #e8e8e8 40px, #ddd 80px);
+    background-size: 600px;
+    animation: shine-lines 1.6s infinite linear;
+}
+.post .avatar + .line {
+    margin: 11px 0 11px 0;
+    width: 266px;
+    text-align: center;
+    font-family: sans-serif;
+    color: white;
+    text-transform: uppercase;
+}
+.post .line ~ .line {
+    background-color: #ddd;
+}
+
+@keyframes shine-lines {
+    0% {
+        background-position: -100px;
+    }
+    40%, 100% {
+        background-position: 140px;
+    }
+}
+@keyframes shine-avatar {
+    0% {
+        background-position: -32px;
+    }
+    40%, 100% {
+        background-position: 208px;
+    }
+}
+.card-title{
+    color: #292272 !important;
+    font-family: sans-serif !important;
+    font-size: 17px !important;
+}
+.input-group-text{
+    font-weight: lighter !important;
+}
+.form-control::-webkit-inner-spin-button,
+.form-control::-webkit-outer-spin-button {
+    -webkit-appearance: none;   margin: 0;
+}
+.sh-px-100{
+    height: 181px !important;
+}
+.sw-px-100 {
+    width: 500px !important;
+}
+#slider-table_wrapper{
+    margin-bottom: 30px !important;
+}

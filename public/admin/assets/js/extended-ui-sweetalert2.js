@@ -29,7 +29,7 @@
     progressSteps = document.querySelector('#progress-steps'),
     ajaxRequest = document.querySelector('#ajax-request'),
     confirmText = document.querySelector('#confirm-text'),
-    confirmColor = document.querySelector('#confirm-color');
+    confirmColor = document.querySelector('.delete-item');
 
   // Basic Alerts
   // --------------------------------------------------------------------
@@ -522,11 +522,11 @@
   if (confirmColor) {
     confirmColor.onclick = function () {
       Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Silmek İstediğinize Emin misin?',
+        text: "Bunu geri döndüremezsiniz!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
+        confirmButtonText: 'Evet, silin!',
         customClass: {
           confirmButton: 'btn btn-primary me-3',
           cancelButton: 'btn btn-label-secondary'
@@ -536,16 +536,16 @@
         if (result.value) {
           Swal.fire({
             icon: 'success',
-            title: 'Deleted!',
-            text: 'Your file has been deleted.',
+            title: 'Silindi!',
+            text: 'İçerik silindi.',
             customClass: {
               confirmButton: 'btn btn-success'
             }
           });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire({
-            title: 'Cancelled',
-            text: 'Your imaginary file is safe :)',
+            title: 'İptal edildi',
+            text: 'İçeriğiniz güvende :)',
             icon: 'error',
             customClass: {
               confirmButton: 'btn btn-success'
