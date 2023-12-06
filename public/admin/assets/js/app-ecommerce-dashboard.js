@@ -220,13 +220,13 @@
           data: [0, 25, 10, 40, 25, 55]
         }
       ],
-      tooltip: {
-        shared: false,
-        intersect: true,
-        x: {
-          show: false
-        }
-      },
+      // tooltip: {
+      //   shared: false,
+      //   intersect: true,
+      //   x: {
+      //     show: false
+      //   }
+      // },
       xaxis: {
         labels: {
           show: false

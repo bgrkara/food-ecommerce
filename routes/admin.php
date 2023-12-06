@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 
 
 /*
@@ -43,5 +44,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function (){
 
     // Product Category Routes
     Route::resource('category', CategoryController::class);
+
+    // Product Routes
+    Route::resource('product', ProductController::class);
 
 });

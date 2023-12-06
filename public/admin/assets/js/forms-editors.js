@@ -5,89 +5,23 @@
 'use strict';
 
 (function () {
-  // Snow Theme
-  // --------------------------------------------------------------------
-  const snowEditor = new Quill('#snow-editor', {
-    bounds: '#snow-editor',
-    modules: {
-      formula: true,
-      toolbar: '#snow-toolbar'
-    },
-    theme: 'snow'
-  });
+  // Tinymce Long Description Product Create
+    tinymce.init({
+        selector: 'textarea#longDescription',
+        maxWidth: 500,
+        height: 300,
+        plugins: [
+            'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks', 'code', 'fullscreen', 'insertdatetime',
+            'media', 'table', 'emoticons', 'template', 'codesample'
+        ],
+        toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify |' +
+            'bullilst numlist outdent indent | link image | print preview media fullscreen |' +
+            'forecolor backcolor emotions',
+        menu: {
+            favs: {title: 'menu', items: 'code visualaid | searchreplace | emoticons'}
+        },
+        menubar: 'favs file edit view insert format tools table',
+        content_style: 'body{font-family:Helvetica, Arial, sans-serif;font-size:16px'
+    });
 
-  // Bubble Theme
-  // --------------------------------------------------------------------
-  const bubbleEditor = new Quill('#bubble-editor', {
-    modules: {
-      toolbar: '#bubble-toolbar'
-    },
-    theme: 'bubble'
-  });
-
-  // Full Toolbar
-  // --------------------------------------------------------------------
-  const fullToolbar = [
-    [
-      {
-        font: []
-      },
-      {
-        size: []
-      }
-    ],
-    ['bold', 'italic', 'underline', 'strike'],
-    [
-      {
-        color: []
-      },
-      {
-        background: []
-      }
-    ],
-    [
-      {
-        script: 'super'
-      },
-      {
-        script: 'sub'
-      }
-    ],
-    [
-      {
-        header: '1'
-      },
-      {
-        header: '2'
-      },
-      'blockquote',
-      'code-block'
-    ],
-    [
-      {
-        list: 'ordered'
-      },
-      {
-        list: 'bullet'
-      },
-      {
-        indent: '-1'
-      },
-      {
-        indent: '+1'
-      }
-    ],
-    [{ direction: 'rtl' }],
-    ['link', 'image', 'video', 'formula'],
-    ['clean']
-  ];
-  const fullEditor = new Quill('#full-editor', {
-    bounds: '#full-editor',
-    placeholder: 'Type Something...',
-    modules: {
-      formula: true,
-      toolbar: fullToolbar
-    },
-    theme: 'snow'
-  });
 })();

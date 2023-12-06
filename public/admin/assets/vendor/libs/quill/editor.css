@@ -293,19 +293,19 @@
 .ql-snow .ql-picker.ql-size .ql-picker-item[data-value=small]::before,
 .ql-bubble .ql-picker.ql-size .ql-picker-label[data-value=small]::before,
 .ql-bubble .ql-picker.ql-size .ql-picker-item[data-value=small]::before {
-  content: "Small";
+  content: "Küçük";
 }
 .ql-snow .ql-picker.ql-size .ql-picker-label[data-value=large]::before,
 .ql-snow .ql-picker.ql-size .ql-picker-item[data-value=large]::before,
 .ql-bubble .ql-picker.ql-size .ql-picker-label[data-value=large]::before,
 .ql-bubble .ql-picker.ql-size .ql-picker-item[data-value=large]::before {
-  content: "Large";
+  content: "Büyük";
 }
 .ql-snow .ql-picker.ql-size .ql-picker-label[data-value=huge]::before,
 .ql-snow .ql-picker.ql-size .ql-picker-item[data-value=huge]::before,
 .ql-bubble .ql-picker.ql-size .ql-picker-label[data-value=huge]::before,
 .ql-bubble .ql-picker.ql-size .ql-picker-item[data-value=huge]::before {
-  content: "Huge";
+  content: "Çok Büyük";
 }
 .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg,
 .ql-bubble .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {

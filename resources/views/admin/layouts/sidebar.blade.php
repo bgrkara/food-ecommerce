@@ -71,6 +71,11 @@
                         <div data-i18n="Ürün Kategorileri">Ürün Kategorileri</div>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.product.index') }}" class="menu-link">
+                        <div data-i18n="Ürünler">Ürünler</div>
+                    </a>
+                </li>
             </ul>
         </li>
 

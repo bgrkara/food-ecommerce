@@ -79,7 +79,6 @@
                                     type="text"
                                     id="description"
                                     name="short_description"
-                                    value=""
                                     rows="1"
                                     placeholder="Kısa Açıklama Giriniz"
                                     autofocus

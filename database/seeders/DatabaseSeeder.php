@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Slider;
@@ -21,8 +22,9 @@ class DatabaseSeeder extends Seeder
         // ]);
 
          $this->call(UserSeeder::class);
-         $this->call(CategorySeeder::class);
          Slider::factory(3)->create();
+         $this->call(CategorySeeder::class);
+         Product::factory(10)->create();
 
     }
 }
