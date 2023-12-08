@@ -39,6 +39,7 @@ class ProductDataTable extends DataTable
                 $more = '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical me-2"></i></button>
                          <div class="dropdown-menu dropdown-menu-end m-0" style="">
                          <a href="'.route('admin.product-gallery.show-index', $query->id).'" class="dropdown-item">Ürün Galerisi</a>
+                         <a href="'.route('admin.product-size.show-index', $query->id).'" class="dropdown-item">Ürün Varyantları</a>
                          </div>';
                 return $edit.$delete.$more;
             })

@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @method static findOrFail(string $produtId)
+ * @method static where(string $string, $id)
+ * @method static findOrFail(string $id)
  */
-class Product extends Model
+class ProductSize extends Model
 {
     use HasFactory;
 }
