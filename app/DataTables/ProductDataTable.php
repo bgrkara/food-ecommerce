@@ -23,6 +23,33 @@ class ProductDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', 'product.action')
+            ->addColumn('price', function ($query){
+                return $query->price . ' ₺';
+            })
+            ->addColumn('offer_price' ,function ($query){
+                return $query->offer_price . ' ₺';
+            })
+            ->addColumn('thumb_image', function ($query){
+                return '<img src="'.asset($query->thumb_image).'" class="d-block h-px-100 w-px-100 rounded">';
+            })
+            ->addColumn('action', function ($query){
+                $edit = '<a href="'.route('admin.product.edit', $query->id).'" type="button" class="btn btn-sm btn-icon"><i class="ti ti-edit"></i></a>';
+
+                $delete = '<a href="'.route('admin.product.destroy', $query->id).'" type="button" id="confirm-color" class="btn btn-sm btn-icon delete-item delete-record"><i class="ti ti-trash"></i></a>';
+                $more = '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical me-2"></i></button>
+                         <div class="dropdown-menu dropdown-menu-end m-0" style="">
+                         <a href="'.route('admin.product-gallery.show-index', $query->id).'" class="dropdown-item">Ürün Galerisi</a>
+                         </div>';
+                return $edit.$delete.$more;
+            })
+
+            ->addColumn('status', function ($query){
+                return ($query->status === 1) ? '<div class="badge bg-gradient-success ms-auto">Aktif</div>' : '<div class="badge bg-gradient-danger ms-auto">Pasif</div>';
+            })
+            ->addColumn('show_at_home', function ($query){
+                return ($query->show_at_home === 1) ? '<div class="badge bg-gradient-primary ms-auto">Gösterildi</div>' : '<div class="badge bg-gradient-warning ms-auto">Gizlendi</div>';
+            })
+            ->rawColumns(['action', 'price', 'thumb_image', 'offer_price', 'status','show_at_home'])
             ->setRowId('id');
     }
 
@@ -62,15 +89,19 @@ class ProductDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('thumb_image')->title('Ürün Görseli'),
+            Column::make('name')->title('Ürün Adı'),
+            Column::make('price')->title('Ürün Fiyatı'),
+            Column::make('offer_price')->title('İndirimli Fiyat'),
+            Column::make('show_at_home')->title('Anasayfa Gösterimi'),
+            Column::make('status')->title('Durum'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(100)
+                ->title('İşlemler')
+                ->addClass('text-center')
         ];
     }
 
