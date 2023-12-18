@@ -30,7 +30,11 @@ Route::group(['middleware' => 'auth'], function (){
    Route::post('profile/avatar', [FrontendProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
 });
 
+// Show HomePage Routes
 Route::get('/', [FrontendController::class, 'index'])->name('home');
+
+// Product Detail Page Routes
+Route::get('/product/{slug}', [FrontendController::class, 'showProduct'])->name('product.show');
 
 //Route::get('/dashboard', function () {
 //    return view('dashboard');

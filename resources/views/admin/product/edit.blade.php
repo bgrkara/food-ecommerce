@@ -154,7 +154,7 @@
                         <div class="card-body">
                             <div class="mt-2">
                                 <input type="submit" class="btn btn-primary me-2 p-0" style="color: #7367f0" value="Güncelle" />
-                                <a href="{{ route('admin.category.index') }}" class="btn btn-label-secondary">İptal</a>
+                                <a href="{{ route('admin.product.index') }}" class="btn btn-label-secondary">İptal</a>
                             </div>
                         </div>
                     </div>

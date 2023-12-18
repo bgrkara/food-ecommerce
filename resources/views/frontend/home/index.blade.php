@@ -7,6 +7,8 @@
             @include('frontend.home.component.slider')
             <!--Promo 1-->
             @include('frontend.home.component.promo_first')
+            <!--Product List Category-->
+            @include('frontend.home.component.product_list_category')
             <!--Product Category-->
             @include('frontend.home.component.product_category')
         </div>

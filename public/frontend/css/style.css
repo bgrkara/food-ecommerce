@@ -3281,6 +3281,10 @@ textarea.form-control {
   background-color: #00605A;
 }
 
+.ps-badge.ps-badge--category {
+    background-color: #103178;
+}
+
 .ps-product {
   background-color: white;
 }
