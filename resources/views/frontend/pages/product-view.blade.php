@@ -4,7 +4,7 @@
         <div class="container">
             <ul class="ps-breadcrumb">
                 <li class="ps-breadcrumb__item"><a href="{{ route('home') }}">Anasayfa</a></li>
-                <li class="ps-breadcrumb__item"><a href="#">Category</a></li>
+                <li class="ps-breadcrumb__item"><a href="#">{{ $product->category->name }}</a></li>
                 <li class="ps-breadcrumb__item active" aria-current="page">{{ $product->name }}</li>
             </ul>
             <div class="ps-page__content">
@@ -16,30 +16,26 @@
                                     <div class="ps-product--gallery">
                                         <div class="ps-product__thumbnail">
                                             <div class="slide"><img src="{{ asset($product->thumb_image) }}" alt="{{ $product->name }}" /></div>
-                                            <div class="slide"><img src="{{ asset('frontend/img/products/008.jpg') }}" alt="alt" /></div>
-                                            <div class="slide"><img src="{{ asset('frontend/img/products/009.jpg') }}" alt="alt" /></div>
-                                            <div class="slide"><img src="{{ asset('frontend/img/products/045.jpg') }}" alt="alt" /></div>
+                                            @foreach($product->productImages as $image)
+                                                <div class="slide"><img src="{{ asset($image->image) }}" alt="{{ $product->name }}" /></div>
+                                            @endforeach
                                         </div>
                                         <div class="ps-gallery--image">
                                             <div class="slide">
-                                                <div class="ps-gallery__item"><img src="{{ asset('frontend/img/products/028.jpg') }}" alt="alt" /></div>
+                                                <div class="ps-gallery__item"><img src="{{ asset($product->thumb_image) }}" alt="{{ $product->name }}" /></div>
                                             </div>
-                                            <div class="slide">
-                                                <div class="ps-gallery__item"><img src="{{ asset('frontend/img/products/008.jpg') }}" alt="alt" /></div>
-                                            </div>
-                                            <div class="slide">
-                                                <div class="ps-gallery__item"><img src="{{ asset('frontend/img/products/009.jpg') }}" alt="alt" /></div>
-                                            </div>
-                                            <div class="slide">
-                                                <div class="ps-gallery__item"><img src="{{ asset('frontend/img/products/045.jpg') }}" alt="alt" /></div>
-                                            </div>
+                                            @foreach($product->productImages as $image)
+                                                <div class="slide">
+                                                    <div class="ps-gallery__item"><img src="{{ asset($image->image) }}" alt="{{ $product->name }}" /></div>
+                                                </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-xl-5">
                                     <div class="ps-product__info">
-                                        <div class="ps-product__branch"><a href="#">WeTakeCare</a></div>
-                                        <div class="ps-product__title"><a href="#">Digital Thermometer X30-Pro</a></div>
+                                        <div class="ps-product__branch"><a href="#">{!! $product->category->name !!}</a></div>
+                                        <div class="ps-product__title"><a href="#">{!! $product->name !!}</a></div>
                                         <div class="ps-product__rating">
                                             <select class="ps-rating" data-read-only="true">
                                                 <option value="1">1</option>
@@ -50,34 +46,17 @@
                                             </select><span class="ps-product__review">(5 Reviews)</span>
                                         </div>
                                         <div class="ps-product__desc">
-                                            <ul class="ps-product__list">
-                                                <li>Study history up to 30 days</li>
-                                                <li>Up to 5 users simultaneously</li>
-                                                <li>Has HEALTH certificate</li>
-                                            </ul>
+                                           {!! $product->short_description !!}
                                         </div>
                                         <ul class="ps-product__bundle">
-                                            <li><i class="icon-wallet"></i>100% Money back</li>
-                                            <li><i class="icon-bag2"></i>Non-contact shipping</li>
-                                            <li><i class="icon-truck"></i>Free delivery for order over $200</li>
+                                            <li><i class="icon-wallet"></i>%100 Para İadesi</li>
+                                            <li><i class="icon-bag2"></i>Temassız Teslimat</li>
+                                            <li><i class="icon-truck"></i>300₺ ve Üzeri Siparişlerde Ücretsiz Teslimat</li>
                                         </ul>
                                         <div class="ps-product__type">
                                             <ul class="ps-product__list">
-                                                <li> <span class="ps-list__title">Tags: </span><a class="ps-list__text" href="#">Health</a><a class="ps-list__text" href="#">Thermometer</a>
+                                                <li> <span class="ps-list__title">SKU: </span><a class="ps-list__text" href="#">{{ $product->sku }}</a>
                                                 </li>
-                                                <li> <span class="ps-list__title">SKU: </span><a class="ps-list__text" href="#">8DJ21A</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="ps-product__social">
-                                            <ul class="ps-social ps-social--color">
-                                                <li><a class="ps-social__link facebook" href="#"><i class="fa fa-facebook"> </i><span class="ps-tooltip">Facebook</span></a></li>
-                                                <li><a class="ps-social__link twitter" href="#"><i class="fa fa-twitter"></i><span class="ps-tooltip">Twitter</span></a></li>
-                                                <li><a class="ps-social__link pinterest" href="#"><i class="fa fa-pinterest-p"></i><span class="ps-tooltip">Pinterest</span></a></li>
-                                                <li class="ps-social__linkedin"><a class="ps-social__link linkedin" href="#"><i class="fa fa-linkedin"></i><span class="ps-tooltip">Linkedin</span></a></li>
-                                                <li class="ps-social__reddit"><a class="ps-social__link reddit-alien" href="#"><i class="fa fa-reddit-alien"></i><span class="ps-tooltip">Reddit Alien</span></a></li>
-                                                <li class="ps-social__email"><a class="ps-social__link envelope" href="#"><i class="fa fa-envelope-o"></i><span class="ps-tooltip">Email</span></a></li>
-                                                <li class="ps-social__whatsapp"><a class="ps-social__link whatsapp" href="#"><i class="fa fa-whatsapp"></i><span class="ps-tooltip">WhatsApp</span></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -86,38 +65,50 @@
                         </div>
                         <div class="col-12 col-md-3">
                             <div class="ps-product__feature">
-                                <div class="ps-product__badge"><span class="ps-badge ps-badge--outstock">OUT OF STOCK</span>
+                                <div class="ps-product__badge"><span class="ps-badge ps-badge--outstock">Stokta</span>
                                 </div>
-                                <div class="ps-product__meta"><span class="ps-product__price sale">$89.74</span><span class="ps-product__del">$60.24</span>
+                                <div class="ps-product__meta">
+                                    @if($product->offer_price > 0)
+                                        <span class="ps-product__price sale">{{ $product->offer_price }}₺</span>
+                                        <span class="ps-product__del">{{ $product->price }}₺</span>
+                                    @else
+                                        <span class="ps-product__price sale">{{ $product->price }}₺</span>
+                                    @endif
+
+
                                 </div>
                                 <div class="ps-product__variable">
-                                    <div class="ps-product__attribute">
-                                        <h6>Color</h6>
-                                        <select class="form-select">
-                                            <option selected="selected">Choose an option</option>
-                                            <option value="Gray">Gray</option>
-                                            <option value="Red">Red</option>
-                                            <option value="Black">Black</option>
-                                        </select>
-                                    </div>
-                                    <div class="ps-product__attribute">
-                                        <h6>Size</h6>
-                                        <select class="form-select">
-                                            <option selected="selected">Choose an option</option>
-                                            <option value="L">L</option>
-                                            <option value="M">M</option>
-                                            <option value="S">S</option>
-                                        </select>
-                                    </div>
+                                    @if($product->productSizes()->exists())
+                                        <div class="ps-product__attribute">
+                                            <h6>Boyut</h6>
+                                            <select class="form-select">
+                                                <option selected="selected">Bir Seçenek Seçin</option>
+                                                @foreach($product->productSizes as $productSize)
+                                                    <option value="L">{{ $productSize->name }} +{{$productSize->price}}₺</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endif
+                                    @if($product->productOptions()->exists())
+                                        <div class="ps-product__attribute">
+                                            <h6>Ek Seçenekler</h6>
+                                            <select class="form-select">
+                                                <option selected="selected">Bir Seçenek Seçin</option>
+                                                @foreach($product->productOptions as $productOption)
+                                                    <option value="Gray">{{ $productOption->name }} +{{ $productOption->price }}₺</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="ps-product__quantity">
-                                    <h6>Quantity</h6>
+                                    <h6>Adet</h6>
                                     <div class="def-number-input number-input safari_only">
                                         <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
                                         <input class="quantity" min="0" name="quantity" value="1" type="number" />
                                         <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
                                     </div>
-                                </div><a class="ps-btn ps-btn--warning" href="#" data-toggle="modal" data-target="#popupAddcartV2">Add to cart</a>
+                                </div><a class="ps-btn ps-btn--warning" href="#" data-toggle="modal" data-target="#popupAddcartV2">Sepete Ekle</a>
                                 <div class="ps-product__variations"><a class="ps-product__link" href="wishlist.html">Add to wishlist</a><a class="ps-product__link" href="compare.html">Add to Compare</a></div>
                             </div>
                         </div>
@@ -130,38 +121,7 @@
                         <div class="tab-content" id="productContent" style="margin-bottom: 80px;">
                             <div class="tab-pane fade show active" id="description-content" role="tabpanel" aria-labelledby="description-tab">
                                 <div class="ps-document">
-                                    <h2 class="ps-title">Digital Thermometer X30-Pro</h2>
-                                    <p class="ps-desc">Just a few seconds to measure your body temperature. Up to 5 users! The battery lasts up to 2 years. There are many variations of passages of Lorem Ipsum available, but the majority have suffered altevration in some form, by injected humour, or randomised words which don’t look even slightly believable.</p>
-                                    <p class="ps-desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                    <ul class="ps-list">
-                                        <li class="d-inline-block" style="margin: 0 55px 15px 0;"><img src="img/icon/bacterial.svg" alt=""><span>Study history up to 30 days</span></li>
-                                        <li class="d-inline-block" style="margin: 0 55px 15px 0;"><img src="img/icon/virus.svg" alt=""><span>Up to 5 users simultaneously</span></li>
-                                        <li class="d-inline-block" style="margin: 0 55px 15px 0;"><img src="img/icon/ribbon.svg" alt=""><span>Has HEALTH certificate</span></li>
-                                    </ul>
-                                    <table class="table ps-table ps-table--oriented m-0">
-                                        <tbody>
-                                        <tr>
-                                            <th class="ps-table__th">Power</th>
-                                            <td>5,049</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="ps-table__th">Windows</th>
-                                            <td>64bit Windows 7*, 8 or 10</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="ps-table__th">Graphic Card</th>
-                                            <td>4Gb dedicated Graphics card (such as NVIDIA – Open GL 4.0 or later)</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="ps-table__th">HDD</th>
-                                            <td>500Gb HDD (this is more driven by the amount of data you want to keep on your computer, rather than LSS itself)</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="ps-table__th">Screen</th>
-                                            <td>Single HD Screen (1920×1080 with 100% desktop scaling) or 1366×768 with second monitor 1920×1080 or higher</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                {!! $product->long_description !!}
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="reviews-content" role="tabpanel" aria-labelledby="reviews-tab">
@@ -348,11 +308,7 @@
                                         </select><span class="ps-product__review">( Reviews)</span>
                                     </div>
                                     <div class="ps-product__desc">
-                                        <ul class="ps-product__list">
-                                            <li>Study history up to 30 days</li>
-                                            <li>Up to 5 users simultaneously</li>
-                                            <li>Has HEALTH certificate</li>
-                                        </ul>
+                                        {!! $product->short_description !!}
                                     </div>
                                     <div class="ps-product__actions ps-product__group-mobile">
                                         <div class="ps-product__quantity">
