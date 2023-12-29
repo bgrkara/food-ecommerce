@@ -66,7 +66,7 @@
                                 <!-- ProductSlug -->
                                 <div class="mb-3 col-md-6">
                                     <label for="productSlug" class="form-label">Slug</label>
-                                    <input
+                                    <input disabled
                                         class="form-control"
                                         type="text"
                                         id="productSlug"

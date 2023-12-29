@@ -3246,7 +3246,7 @@ textarea.form-control {
   display: inline-block;
   font-size: 12px;
   padding: 0 10px;
-  font-weight: 500;
+  font-weight: 200;
   text-align: center;
   line-height: 20px;
   border-radius: 10px;
@@ -3282,7 +3282,7 @@ textarea.form-control {
 }
 
 .ps-badge.ps-badge--category {
-    background-color: #103178;
+    background-color: #103178c4;
 }
 
 .ps-product {
@@ -3390,10 +3390,10 @@ textarea.form-control {
 
 .ps-product__badge {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 25px;
+  left: 25px;
   z-index: 10;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 
 .ps-product__badge .ps-badge {
