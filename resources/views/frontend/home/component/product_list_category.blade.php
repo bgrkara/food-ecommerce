@@ -1,12 +1,7 @@
-
 <section class="ps-portfolio">
     <div class="container">
-        <ul class="ps-breadcrumb">
-            <li class="ps-breadcrumb__item"><a href="#">Home</a></li>
-            <li class="ps-breadcrumb__item active" aria-current="page">Portfolio</li>
-        </ul>
         <div class="ps-portfolio__content">
-            <h1 class="ps-portfolio__title">Portfolio</h1>
+            <h3 class="ps-section__title">Öne Çıkan Ürünler</h3>
             <div class="ps-portfolio__tabs">
                 <ul class="nav nav-tabs" id="productContentTabs" role="tablist">
                     <li class="nav-item" role="presentation"><a class="nav-link active" id="portfolio-all-tab" data-toggle="tab" href="#portfolio-all-content" role="tab" aria-controls="portfolio-all-content" aria-selected="true">All</a></li>
@@ -41,10 +36,10 @@
                                                         <h5 class="ps-product__title"><a href="#">{{ $product->name }}</a></h5>
                                                         <div class="ps-product__meta">
                                                             @if($product->offer_price > 0)
-                                                                <span class="ps-product__price sale">{{ $product->offer_price }}₺</span>
-                                                                <span class="ps-product__del">{{ $product->price }}₺</span>
+                                                                <span class="ps-product__price sale">{{ currencyPosition($product->offer_price) }}</span>
+                                                                <span class="ps-product__del">{{ currencyPosition($product->price) }}</span>
                                                             @else
-                                                                <span class="ps-product__price sale">{{ $product->price }}₺</span>
+                                                                <span class="ps-product__price sale">{{ currencyPosition($product->price) }}</span>
                                                             @endif
                                                         </div>
                                                         <div class="ps-product__rating">

@@ -51,7 +51,7 @@
                                         <ul class="ps-product__bundle">
                                             <li><i class="icon-wallet"></i>%100 Para İadesi</li>
                                             <li><i class="icon-bag2"></i>Temassız Teslimat</li>
-                                            <li><i class="icon-truck"></i>300₺ ve Üzeri Siparişlerde Ücretsiz Teslimat</li>
+                                            <li><i class="icon-truck"></i>{{ currencyPosition(300) }} ve Üzeri Siparişlerde Ücretsiz Teslimat</li>
                                         </ul>
                                         <div class="ps-product__type">
                                             <ul class="ps-product__list">
@@ -69,10 +69,10 @@
                                 </div>
                                 <div class="ps-product__meta">
                                     @if($product->offer_price > 0)
-                                        <span class="ps-product__price sale">{{ $product->offer_price }}₺</span>
-                                        <span class="ps-product__del">{{ $product->price }}₺</span>
+                                        <span class="ps-product__price sale">{{ currencyPosition($product->offer_price) }}</span>
+                                        <span class="ps-product__del">{{ currencyPosition($product->price) }}</span>
                                     @else
-                                        <span class="ps-product__price sale">{{ $product->price }}₺</span>
+                                        <span class="ps-product__price sale">{{ currencyPosition($product->price) }}</span>
                                     @endif
 
 
@@ -84,7 +84,7 @@
                                             <select class="form-select">
                                                 <option selected="selected">Bir Seçenek Seçin</option>
                                                 @foreach($product->productSizes as $productSize)
-                                                    <option value="L">{{ $productSize->name }} +{{$productSize->price}}₺</option>
+                                                    <option value="L">{{ $productSize->name }} + {{ currencyPosition($productSize->price) }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -95,7 +95,7 @@
                                             <select class="form-select">
                                                 <option selected="selected">Bir Seçenek Seçin</option>
                                                 @foreach($product->productOptions as $productOption)
-                                                    <option value="Gray">{{ $productOption->name }} +{{ $productOption->price }}₺</option>
+                                                    <option value="Gray">{{ $productOption->name }} + {{ currencyPosition($productOption->price) }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -299,10 +299,10 @@
                                             <h5 class="ps-product__title"><a href="{{ route('product.show', $relatedProduct->slug) }}">{!! $relatedProduct->name !!}</a></h5>
                                             <div class="ps-product__meta">
                                                 @if($relatedProduct->offer_price > 0)
-                                                    <span class="ps-product__price sale">{{ $relatedProduct->offer_price }}₺</span>
-                                                    <span class="ps-product__del">{{ $relatedProduct->price }}</span>
+                                                    <span class="ps-product__price sale">{{ currencyPosition($relatedProduct->offer_price) }}</span>
+                                                    <span class="ps-product__del">{{ currencyPosition($relatedProduct->price) }}</span>
                                                 @else
-                                                    <span class="ps-product__price sale">{{ $relatedProduct->price }}</span>
+                                                    <span class="ps-product__price sale">{{ currencyPosition($relatedProduct->price) }}</span>
                                                 @endif
                                             </div>
                                             <div class="ps-product__rating">

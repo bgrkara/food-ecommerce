@@ -79,6 +79,12 @@
             </ul>
         </li>
 
+        <!-- Setting Page -->
+        <li class="menu-item">
+            <a href="{{ route('admin.setting.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-settings-2"></i>
+                <div data-i18n="Site Ayarları">Site Ayarları</div></a>
+        </li>
 
 
         <!-- Misc -->

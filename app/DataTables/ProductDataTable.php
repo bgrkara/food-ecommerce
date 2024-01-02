@@ -24,10 +24,10 @@ class ProductDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', 'product.action')
             ->addColumn('price', function ($query){
-                return $query->price . ' ₺';
+                return  currencyPosition($query->price);
             })
             ->addColumn('offer_price' ,function ($query){
-                return $query->offer_price . ' ₺';
+                return  currencyPosition($query->offer_price);
             })
             ->addColumn('thumb_image', function ($query){
                 return '<img src="'.asset($query->thumb_image).'" class="d-block h-px-100 w-px-100 rounded">';

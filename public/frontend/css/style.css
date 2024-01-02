@@ -17589,3 +17589,13 @@ html .bg--parallax {
   -webkit-animation-name: zoomOut;
           animation-name: zoomOut;
 }
+.ps-portfolio__content > .ps-section__title{
+    color: #103178;
+    margin-bottom: 20px;
+    text-align: center;
+}
+#productContentTabs{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
