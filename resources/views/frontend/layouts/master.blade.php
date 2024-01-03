@@ -711,78 +711,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="popupAddcart" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered ps-addcart">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="wrap-modal-slider container-fluid ps-addcart__body">
-                    <button class="close ps-addcart__close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <p class="ps-addcart__noti"> <i class="fa fa-check"> </i>Added to cart succesfully</p>
-                    <div class="row">
-                        <div class="col-12 col-md-6">
-                            <div class="ps-product ps-product--standard">
-                                <div class="ps-product__thumbnail"><a class="ps-product__image" href="product1.html">
-                                        <figure><img src="img/products/015.jpg" alt="alt" /><img src="img/products/040.jpg" alt="alt" />
-                                        </figure>
-                                    </a>
-                                    <div class="ps-product__actions">
-                                        <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="#"><i class="fa fa-heart-o"></i></a></div>
-                                        <div class="ps-product__item rotate" data-toggle="tooltip" data-placement="left" title="Add to compare"><a href="#" data-toggle="modal" data-target="#popupCompare"><i class="fa fa-align-left"></i></a></div>
-                                        <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Quick view"><a href="#" data-toggle="modal" data-target="#popupQuickview"><i class="fa fa-search"></i></a></div>
-                                        <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Add to cart"><a href="#" data-toggle="modal" data-target="#popupAddcart"><i class="fa fa-shopping-basket"></i></a></div>
-                                    </div>
-                                    <div class="ps-product__badge">
-                                        <div class="ps-badge ps-badge--sale">Sale</div>
-                                    </div>
-                                </div>
-                                <div class="ps-product__content">
-                                    <h5 class="ps-product__title"><a href="product1.html">Lens Frame Professional Adjustable Multifunctional</a></h5>
-                                    <div class="ps-product__meta"><span class="ps-product__price sale">$89.65</span><span class="ps-product__del">$60.65</span>
-                                    </div>
-                                    <div class="ps-product__rating">
-                                        <select class="ps-rating" data-read-only="true">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5" selected="selected">5</option>
-                                        </select><span class="ps-product__review">( Reviews)</span>
-                                    </div>
-                                    <div class="ps-product__desc">
-                                        <ul class="ps-product__list">
-                                            <li>Study history up to 30 days</li>
-                                            <li>Up to 5 users simultaneously</li>
-                                            <li>Has HEALTH certificate</li>
-                                        </ul>
-                                    </div>
-                                    <div class="ps-product__actions ps-product__group-mobile">
-                                        <div class="ps-product__quantity">
-                                            <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                <input class="quantity" min="0" name="quantity" value="1" type="number" />
-                                                <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="ps-product__cart"> <a class="ps-btn ps-btn--warning" href="#" data-toggle="modal" data-target="#popupAddcart">Add to cart</a></div>
-                                        <div class="ps-product__item cart" data-toggle="tooltip" data-placement="left" title="Add to cart"><a href="#"><i class="fa fa-shopping-basket"></i></a></div>
-                                        <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></div>
-                                        <div class="ps-product__item rotate" data-toggle="tooltip" data-placement="left" title="Add to compare"><a href="compare.html"><i class="fa fa-align-left"></i></a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <div class="ps-addcart__content">
-                                <p>There are two items in your cart.</p>
-                                <p class="ps-addcart__total">Total: <span class="ps-price">$44.00</span></p><a class="ps-btn ps-btn--border" href="#" data-dismiss="modal" aria-label="Close">Continue shopping</a><a class="ps-btn ps-btn--border" href="shopping-cart.html">View cart</a><a class="ps-btn ps-btn--warning" href="checkout.html">Proceed to checkout</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<div class="load_product_modal_body"></div>
 <div class="modal fade" id="popupAddcartV2" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered ps-addcart">
         <div class="modal-content">
@@ -997,6 +926,8 @@
              }
          });
 </script>
+<!--Load Global Scripts-->
+@include('frontend.layouts.global-scripts')
 @stack('scripts')
 </body>
 

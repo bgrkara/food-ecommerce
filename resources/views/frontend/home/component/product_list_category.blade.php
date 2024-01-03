@@ -26,7 +26,7 @@
                                                             <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="#"><i class="fa fa-heart-o"></i></a></div>
                                                             <div class="ps-product__item rotate" data-toggle="tooltip" data-placement="left" title="Add to compare"><a href="#" data-toggle="modal" data-target="#popupCompare"><i class="fa fa-align-left"></i></a></div>
                                                             <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Quick view"><a href="#" data-toggle="modal" data-target="#popupQuickview"><i class="fa fa-search"></i></a></div>
-                                                            <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Add to cart"><a href="#" data-toggle="modal" data-target="#popupAddcart"><i class="fa fa-shopping-basket"></i></a></div>
+                                                            <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Add to cart"><a href="javascript:;" onclick="loadProductModal('{{ $product->id }}')"><i class="fa fa-shopping-basket"></i></a></div>
                                                         </div>
                                                         <div class="ps-product__badge">
                                                             <div class="ps-badge ps-badge--category">{{ @$product->category->name }}</div>

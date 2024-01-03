@@ -84,7 +84,7 @@
                                             <select class="form-select">
                                                 <option selected="selected">Bir Seçenek Seçin</option>
                                                 @foreach($product->productSizes as $productSize)
-                                                    <option value="L">{{ $productSize->name }} + {{ currencyPosition($productSize->price) }}</option>
+                                                    <option value="{{ $productSize->id }}">{{ $productSize->name }} + {{ currencyPosition($productSize->price) }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -95,7 +95,7 @@
                                             <select class="form-select">
                                                 <option selected="selected">Bir Seçenek Seçin</option>
                                                 @foreach($product->productOptions as $productOption)
-                                                    <option value="Gray">{{ $productOption->name }} + {{ currencyPosition($productOption->price) }}</option>
+                                                    <option value="{{ $productOption->id }}">{{ $productOption->name }} + {{ currencyPosition($productOption->price) }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
