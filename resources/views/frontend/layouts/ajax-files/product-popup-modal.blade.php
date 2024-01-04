@@ -18,7 +18,8 @@
                 <div class="wrap-modal-slider container-fluid ps-addcart__body">
                     <button class="close ps-addcart__close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <p class="ps-addcart__noti"> <i class="fa fa-check"> </i>Lütfen Ürününüzü Sepete Ekleyiniz</p>
-                    <form action="">
+                    <form action="" id="modal_add_to_cart_form">
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <div class="row">
                         <div class="col-12 col-md-6">
                                 <div class="ps-product ps-product--standard">
@@ -32,19 +33,19 @@
                                     </div>
                                     <div class="ps-product__content">
 
-                                        <div class="ps-product__actions ps-product__group-mobile">
-                                            <div class="ps-product__quantity">
-                                                <div class="def-number-input number-input safari_only">
-                                                    <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                    <input class="quantity" min="0" name="quantity" value="1" type="number" />
-                                                    <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
-                                                </div>
-                                            </div>
-                                            <div class="ps-product__cart"> <a class="ps-btn ps-btn--warning" href="#" data-toggle="modal" data-target="#popupAddcart">Add to cart</a></div>
-                                            <div class="ps-product__item cart" data-toggle="tooltip" data-placement="left" title="Add to cart"><a href="#"><i class="fa fa-shopping-basket"></i></a></div>
-                                            <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></div>
-                                            <div class="ps-product__item rotate" data-toggle="tooltip" data-placement="left" title="Add to compare"><a href="compare.html"><i class="fa fa-align-left"></i></a></div>
-                                        </div>
+{{--                                        <div class="ps-product__actions ps-product__group-mobile">--}}
+{{--                                            <div class="ps-product__quantity">--}}
+{{--                                                <div class="def-number-input number-input safari_only">--}}
+{{--                                                    <button class="decrement"><i class="icon-minus"></i></button>--}}
+{{--                                                    <input class="quantity" name="quantity" value="" type="text" />--}}
+{{--                                                    <button class="increment"><i class="icon-plus"></i></button>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="ps-product__cart"> <a class="ps-btn ps-btn--warning" href="#" data-toggle="modal" data-target="#popupAddcart">Add to cart</a></div>--}}
+{{--                                            <div class="ps-product__item cart" data-toggle="tooltip" data-placement="left" title="Add to cart"><a href="#"><i class="fa fa-shopping-basket"></i></a></div>--}}
+{{--                                            <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></div>--}}
+{{--                                            <div class="ps-product__item rotate" data-toggle="tooltip" data-placement="left" title="Add to compare"><a href="compare.html"><i class="fa fa-align-left"></i></a></div>--}}
+{{--                                        </div>--}}
                                     </div>
                                 </div>
                             </div>
@@ -68,8 +69,8 @@
                                             @if($product->productSizes()->exists())
                                                 <div class="ps-product__attribute">
                                                     <h6>Boyut (*Zorunlu)</h6>
-                                                    <select name="product_size" class="form-select">
-                                                        <option data-price="0" selected="selected">Bir Seçenek Seçin</option>
+                                                    <select name="product_size" class="form-select" required>
+                                                        <option value="" data-price="0">Bir Seçenek Seçin</option>
                                                         @foreach($product->productSizes as $productSize)
                                                             <option data-price="{{ $productSize->price }}" value="{{ $productSize->id }}">{{ $productSize->name }} + {{ currencyPosition($productSize->price) }}</option>
                                                         @endforeach
@@ -97,9 +98,9 @@
                                                 <div class="ps-product__quantity">
                                                     <h6>Adet</h6>
                                                     <div class="def-number-input number-input safari_only">
-                                                        <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                        <input class="quantity" min="0" name="quantity" value="1" type="number" />
-                                                        <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
+                                                        <button class="minus decrement"><i class="icon-minus"></i></button>
+                                                        <input type="number" id="quantity" value="1" min="0" name="quantity" placeholder="1" readonly />
+                                                        <button class="plus increment"><i class="icon-plus"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -115,7 +116,7 @@
                                             </div>
                                         </div>
 
-                                        <p class="ps-addcart__total"><a class="ps-btn ps-btn--warning" href="checkout.html">Sepete Ekle</a>
+                                        <button type="submit" class="ps-btn ps-btn--warning modal_cart_button">Sepete Ekle</button>
                                     </div>
                                 </div>
 
@@ -138,11 +139,31 @@
             updateTotalPrice();
         });
 
+        // Event Handlers For Increment and Decrement Buttons
+        $('.increment').on('click', function (e){
+            e.preventDefault();
+            let quantity = $('#quantity');
+            let currentQuantity = parseFloat(quantity.val());
+            quantity.val(currentQuantity + 1);
+            updateTotalPrice();
+        })
+
+        $('.decrement').on('click', function (e){
+            e.preventDefault();
+            let quantity = $('#quantity');
+            let currentQuantity = parseFloat(quantity.val());
+            if(currentQuantity > 1){
+                quantity.val(currentQuantity - 1);
+                updateTotalPrice();
+            }
+        })
+
         // Function to Update Total Price Selected Option
         function updateTotalPrice(){
             let basePrice = parseFloat($('input[name="base_price"]').val());
             let selectedSizePrice = 0;
             let selectedOptionsPrice = 0;
+            let quantity = parseFloat($('#quantity').val());
 
             // Selected Size Price Calculate
             let selectedSize = $('select[name="product_size"] option:selected');
@@ -158,10 +179,48 @@
 
 
             // Calculate The Total Price
-            let totalPrice = basePrice + selectedSizePrice + selectedOptionsPrice;
+            let totalPrice = (basePrice + selectedSizePrice + selectedOptionsPrice) * quantity;
             $('#total_price').text("{{ config('settings.site_currency_icon') }}" + totalPrice);
 
         }
+
+        // Add To Cart Function
+        $('#modal_add_to_cart_form').on('submit', function (e){
+            e.preventDefault();
+
+            //Validation
+            let selectedSize = $('select[name="product_size"]');
+            console.log(selectedSize)
+            if(selectedSize.length > 0){
+                if($('select[name="product_size"] option:selected').val() === undefined){
+                    toastr.error('Lütfen Ürün Boyutu Seçiniz');
+                    console.error('Lütfen Ürün Boyutu Seçiniz');
+                    return;
+                }
+            }
+
+            let formData = $(this).serialize();
+            $.ajax({
+                method: 'POST',
+                url: '{{ route('add-to-cart') }}',
+                data: formData,
+                beforeSend: function () {
+                    $('.modal_cart_button').attr('disabled', true).html('<span class="loader"></span>Ekleniyor...')
+                },
+                success: function (response) {
+                    toastr.success(response.message)
+                },
+                error: function (xhr, status, error) {
+                    let errorMessage = xhr.responseJSON.message;
+                    toastr.error(errorMessage)
+                },
+                complete: function () {
+                    setTimeout(() => {
+                        $('.modal_cart_button').html('Sepete Ekle').attr('disabled', false);
+                    }, 2000);
+                }
+            })
+        })
 
     })
 </script>

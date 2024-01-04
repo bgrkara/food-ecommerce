@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/home-2.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/custom.css') }}">
     @stack('css')
 
 </head>

@@ -700,10 +700,10 @@ body {
   color: white !important;
 }
 
-.ps-btn--warning:hover {
-  background-color: white !important;
-  color: #FD8D27 !important;
-}
+/*.ps-btn--warning:hover {*/
+/*  background-color: white !important;*/
+/*  color: #FD8D27 !important;*/
+/*}*/
 
 .ps-btn--primary {
   border: 1px solid #103178 !important;
