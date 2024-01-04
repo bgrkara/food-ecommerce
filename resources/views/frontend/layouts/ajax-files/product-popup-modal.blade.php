@@ -85,7 +85,7 @@
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox" name="product_option[]" data-price="{{ $productOption->price }}" value="{{ $productOption->id }}" id="size-{{ $productOption->id }}">
                                                                 <label class="form-check-label" for="size-{{ $productOption->id }}">
-                                                                    {{ $productOption->name }} + {{ $productOption->price }}
+                                                                    {{ $productOption->name }} + {{ currencyPosition($productOption->price) }}
                                                                 </label>
                                                             </div>
                                                         @endforeach
@@ -208,6 +208,7 @@
                     $('.modal_cart_button').attr('disabled', true).html('<span class="loader"></span>Ekleniyor...')
                 },
                 success: function (response) {
+                    updateSidebarCart();
                     toastr.success(response.message)
                 },
                 error: function (xhr, status, error) {
@@ -217,7 +218,7 @@
                 complete: function () {
                     setTimeout(() => {
                         $('.modal_cart_button').html('Sepete Ekle').attr('disabled', false);
-                    }, 2000);
+                    }, 1000);
                 }
             })
         })

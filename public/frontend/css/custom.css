@@ -11,6 +11,19 @@
     top: 3px;
     margin-right: 5px;
 }
+.loader-remove {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid #103178;
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    position: relative;
+    top: 3px;
+    margin-right: 5px;
+}
 @keyframes rotation {
     0% {
         transform: rotate(0deg);
@@ -20,3 +33,28 @@
     }
 }
 
+/**Cart**/
+.cart-list-item{
+    display: flex !important;
+    font-size: 13px;
+}
+.cart-text{
+    font-size: 14px;
+    line-height: 0.8em;
+    color: #5c667c;
+}
+.line-height-0{
+    line-height: 0 !important;
+}
+.product-page-total{
+    display: flex;
+    align-items: center;
+}
+.product-page-total>h6{
+    position: relative;
+    top: 2px;
+}
+.ps-product--detail #v_total_price{
+    font-size: 23px !important;
+    line-height: 0 !important;
+}

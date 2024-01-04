@@ -73,26 +73,33 @@
                         <li><a class="ps-header__item" href="{{ route('login') }}" id="login-modal"><i class="icon-user"></i></a>
                         </li>
                         <li><a class="ps-header__item" href="wishlist.html"><i class="fa fa-heart-o"></i><span class="badge">3</span></a></li>
-                        <li><a class="ps-header__item" href="#" id="cart-mini"><i class="icon-cart-empty"></i><span class="badge">2</span></a>
+                        <li><a class="ps-header__item" href="#" id="cart-mini"><i class="icon-cart-empty"></i><span class="badge cart_count">{{ count(Cart::content()) }}</span></a>
                             <div class="ps-cart--mini">
-                                <ul class="ps-cart__items">
-                                    <li class="ps-cart__item">
-                                        <div class="ps-product--mini-cart"><a class="ps-product__thumbnail" href="product-default.html"><img src="img/products/055.jpg" alt="alt" /></a>
-                                            <div class="ps-product__content"><a class="ps-product__name" href="product-default.html">Somersung Sonic X2500 Pro White</a>
-                                                <p class="ps-product__meta"> <span class="ps-product__price">$399.99</span></p>
-                                            </div><a class="ps-product__remove" href="javascript: void(0)"><i class="icon-cross"></i></a>
-                                        </div>
-                                    </li>
-                                    <li class="ps-cart__item">
-                                        <div class="ps-product--mini-cart"><a class="ps-product__thumbnail" href="product-default.html"><img src="img/products/001.jpg" alt="alt" /></a>
-                                            <div class="ps-product__content"><a class="ps-product__name" href="product-default.html">Digital Thermometer X30-Pro</a>
-                                                <p class="ps-product__meta"> <span class="ps-product__sale">$77.65</span><span class="ps-product__is-price">$80.65</span></p>
-                                            </div><a class="ps-product__remove" href="javascript: void(0)"><i class="icon-cross"></i></a>
-                                        </div>
-                                    </li>
+                                <ul class="ps-cart__items cart-contents">
+                                    @foreach(Cart::content() as $cartProduct)
+                                        <li class="ps-cart__item">
+                                            <div class="ps-product--mini-cart"><a class="ps-product__thumbnail" href="{{ route('product.show', $cartProduct->options->product_info['slug']) }}"><img src="{{ asset($cartProduct->options->product_info['image']) }}" alt="{!! $cartProduct->name !!}" /></a>
+                                                <div class="ps-product__content"><a class="ps-product__name" href="{{ route('product.show', $cartProduct->options->product_info['slug']) }}">{!! $cartProduct->name !!}</a>
+                                                    <p class="cart-text">Adet: {{ $cartProduct->qty }}</p>
+                                                    @if(!empty($cartProduct->options['product_size']))
+                                                        <p class="cart-text">Boyut: {{ @$cartProduct->options['product_size']['name'] }} {{ @$cartProduct->options['product_size']['price'] ? '('.currencyPosition(@$cartProduct->options['product_size']['price']).')' : '' }}</p>
+                                                    @endif
+                                                    @if(!empty($cartProduct->options['product_options']))
+                                                        <p class="cart-text">Seçenekler:</p>
+                                                        <ul class="ps-cart__items">
+                                                            @foreach($cartProduct->options->product_options as $cartProductOption)
+                                                                <li class="cart-list-item">{{ $cartProductOption['name'] }} {{ $cartProductOption['price'] ? '('.currencyPosition($cartProductOption['price']).')' : '' }}</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                    <p class="ps-product__meta line-height-0"><span class="ps-product__name">Fiyat: {{ currencyPosition($cartProduct->price) }}</p>
+                                                </div><a class="ps-product__remove cart-remove-btn-{{ $cartProduct->id }}" onclick="removeProductFromSidebar('{{ $cartProduct->rowId }}', '{{ $cartProduct->id }}')" href="javascript: void(0)"><i class="icon-cross"></i></a>
+                                            </div>
+                                        </li>
+                                    @endforeach
                                 </ul>
-                                <div class="ps-cart__total"><span>Subtotal </span><span>$399</span></div>
-                                <div class="ps-cart__footer"><a class="ps-btn ps-btn--outline" href="shopping-cart.html">View Cart</a><a class="ps-btn ps-btn--warning" href="checkout.html">Checkout</a></div>
+                                <div class="ps-cart__total"><span>Ara Toplam </span><span class="cart_subtotal">{{ currencyPosition(cartTotal()) }}</span></div>
+                                <div class="ps-cart__footer"><a class="ps-btn ps-btn--outline" href="shopping-cart.html">Sepeti Görüntüle</a><a class="ps-btn ps-btn--warning" href="checkout.html">Hemen Öde</a></div>
                             </div>
                         </li>
                     </ul>

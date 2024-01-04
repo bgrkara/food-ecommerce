@@ -1,5 +1,12 @@
 @extends('frontend.layouts.master')
 @section('content')
+    @push('css')
+        <style>
+            .form-check .form-check-label::before{
+                background: #f9a75c !important;
+            }
+        </style>
+    @endpush
     <div class="ps-page--product-variable">
         <div class="container">
             <ul class="ps-breadcrumb">
@@ -63,7 +70,12 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-12 col-md-3">
+                            <form action="">
+                                @csrf
+                                <input type="hidden" name="base_price" class="v_base_price"
+                                       value="{{ $product->offer_price > 0 ? $product->offer_price : $product->price }}">
                             <div class="ps-product__feature">
                                 <div class="ps-product__badge"><span class="ps-badge ps-badge--outstock">Stokta</span>
                                 </div>
@@ -74,17 +86,15 @@
                                     @else
                                         <span class="ps-product__price sale">{{ currencyPosition($product->price) }}</span>
                                     @endif
-
-
                                 </div>
                                 <div class="ps-product__variable">
                                     @if($product->productSizes()->exists())
                                         <div class="ps-product__attribute">
                                             <h6>Boyut</h6>
-                                            <select class="form-select">
-                                                <option selected="selected">Bir Seçenek Seçin</option>
+                                            <select class="form-select v_product_size" required>
+                                                <option value="" data-price="0">Bir Seçenek Seçin</option>
                                                 @foreach($product->productSizes as $productSize)
-                                                    <option value="{{ $productSize->id }}">{{ $productSize->name }} + {{ currencyPosition($productSize->price) }}</option>
+                                                    <option data-price="{{ $productSize->price }}" value="{{ $productSize->id }}">{{ $productSize->name }} + {{ currencyPosition($productSize->price) }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -92,25 +102,40 @@
                                     @if($product->productOptions()->exists())
                                         <div class="ps-product__attribute">
                                             <h6>Ek Seçenekler</h6>
-                                            <select class="form-select">
-                                                <option selected="selected">Bir Seçenek Seçin</option>
-                                                @foreach($product->productOptions as $productOption)
-                                                    <option value="{{ $productOption->id }}">{{ $productOption->name }} + {{ currencyPosition($productOption->price) }}</option>
-                                                @endforeach
-                                            </select>
+                                            @foreach($product->productOptions as $productOption)
+                                                <div class="form-check">
+                                                    <input class="form-check-input v_product_option" type="checkbox" name="product_option[]" data-price="{{ $productOption->price }}" value="{{ $productOption->id }}" id="size-{{ $productOption->id }}">
+                                                    <label class="form-check-label" for="size-{{ $productOption->id }}">
+                                                        {{ $productOption->name }} + {{ currencyPosition($productOption->price) }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
                                         </div>
                                     @endif
                                 </div>
+
                                 <div class="ps-product__quantity">
                                     <h6>Adet</h6>
                                     <div class="def-number-input number-input safari_only">
-                                        <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                        <input class="quantity" min="0" name="quantity" value="1" type="number" />
-                                        <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
+                                        <button class="minus v_decrement"><i class="icon-minus"></i></button>
+                                        <input type="number" id="v_quantity" value="1" min="0" name="quantity" placeholder="1" readonly />
+                                        <button class="plus v_increment"><i class="icon-plus"></i></button>
                                     </div>
-                                </div><a class="ps-btn ps-btn--warning" href="#" data-toggle="modal" data-target="#popupAddcartV2">Sepete Ekle</a>
+                                </div>
+                                <hr>
+                                <div class="ps-product__meta product-page-total">
+                                    <h6>Ara Toplam: &nbsp;&nbsp;</h6>
+                                    @if($product->offer_price > 0)
+                                        <span id="v_total_price" class="ps-product__price sale">{{ currencyPosition($product->offer_price) }}</span>
+                                    @else
+                                        <span id="v_total_price" class="ps-product__price sale">{{ currencyPosition($product->price) }}</span>
+                                    @endif
+                                </div>
+
+                                <a class="ps-btn ps-btn--warning" href="#" data-toggle="modal" data-target="#popupAddcartV2">Sepete Ekle</a>
                                 <div class="ps-product__variations"><a class="ps-product__link" href="wishlist.html">Add to wishlist</a><a class="ps-product__link" href="compare.html">Add to Compare</a></div>
                             </div>
+                            </form>
                         </div>
                     </div>
                     <div class="ps-product__content">
@@ -318,7 +343,7 @@
                                                 <div class="ps-product__quantity">
                                                     <div class="def-number-input number-input safari_only">
                                                         <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                        <input class="quantity" min="0" name="quantity" value="1" type="number" />
+                                                        <input class="quantity" min="0" name="qty" value="1" type="number" />
                                                         <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
                                                     </div>
                                                 </div>
@@ -339,3 +364,65 @@
         @endif
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+
+            $('.v_product_size').on('change', function() {
+                v_updateTotalPrice();
+
+            });
+
+            $('.v_product_option').on('change', function() {
+                v_updateTotalPrice();
+
+            });
+
+            // Event Handlers For Increment and Decrement Buttons
+            $('.v_increment').on('click', function (e){
+                e.preventDefault();
+                let quantity = $('#v_quantity');
+                let currentQuantity = parseFloat(quantity.val());
+                quantity.val(currentQuantity + 1);
+                v_updateTotalPrice();
+            })
+
+            $('.v_decrement').on('click', function (e){
+                e.preventDefault();
+                let quantity = $('#v_quantity');
+                let currentQuantity = parseFloat(quantity.val());
+                if(currentQuantity > 1){
+                    quantity.val(currentQuantity - 1);
+                    v_updateTotalPrice();
+                }
+            })
+
+            // Function to Update Total Price Selected Option
+            function v_updateTotalPrice(){
+                let basePrice = parseFloat($('.v_base_price').val());
+                let selectedSizePrice = 0;
+                let selectedOptionsPrice = 0;
+                let quantity = parseFloat($('#v_quantity').val());
+
+                // Selected Size Price Calculate
+                let selectedSize = $('select.v_product_size option:selected');
+                if(selectedSize.length > 0){
+                    selectedSizePrice = parseFloat(selectedSize.data('price'));
+                }
+
+                // Selected Option Price Calculate
+                let selectedOptions = $('.v_product_option:checked');
+                $(selectedOptions).each(function (){
+                    selectedOptionsPrice += parseFloat($(this).data("price"));
+                })
+
+
+                // Calculate The Total Price
+                let totalPrice = (basePrice + selectedSizePrice + selectedOptionsPrice) * quantity;
+                $('#v_total_price').text("{{ config('settings.site_currency_icon') }}" + totalPrice);
+
+            }
+
+        })
+    </script>
+@endpush
