@@ -72,11 +72,13 @@
                         </div>
 
                         <div class="col-12 col-md-3">
-                            <form action="">
-                                @csrf
-                                <input type="hidden" name="base_price" class="v_base_price"
-                                       value="{{ $product->offer_price > 0 ? $product->offer_price : $product->price }}">
+
                             <div class="ps-product__feature">
+                                <form action="" id="v_add_to_cart_form">
+                                    @csrf
+                                    <input type="hidden" name="base_price" class="v_base_price"
+                                           value="{{ $product->offer_price > 0 ? $product->offer_price : $product->price }}">
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="ps-product__badge"><span class="ps-badge ps-badge--outstock">Stokta</span>
                                 </div>
                                 <div class="ps-product__meta">
@@ -90,8 +92,8 @@
                                 <div class="ps-product__variable">
                                     @if($product->productSizes()->exists())
                                         <div class="ps-product__attribute">
-                                            <h6>Boyut</h6>
-                                            <select class="form-select v_product_size" required>
+                                            <h6>Boyut (*Zorunlu)</h6>
+                                            <select class="form-select v_product_size" name="product_size" required="">
                                                 <option value="" data-price="0">Bir Seçenek Seçin</option>
                                                 @foreach($product->productSizes as $productSize)
                                                     <option data-price="{{ $productSize->price }}" value="{{ $productSize->id }}">{{ $productSize->name }} + {{ currencyPosition($productSize->price) }}</option>
@@ -113,7 +115,6 @@
                                         </div>
                                     @endif
                                 </div>
-
                                 <div class="ps-product__quantity">
                                     <h6>Adet</h6>
                                     <div class="def-number-input number-input safari_only">
@@ -131,11 +132,11 @@
                                         <span id="v_total_price" class="ps-product__price sale">{{ currencyPosition($product->price) }}</span>
                                     @endif
                                 </div>
-
-                                <a class="ps-btn ps-btn--warning" href="#" data-toggle="modal" data-target="#popupAddcartV2">Sepete Ekle</a>
+                                </form>
+                                <a class="ps-btn ps-btn--warning v_submit_button" href="#">Sepete Ekle</a>
                                 <div class="ps-product__variations"><a class="ps-product__link" href="wishlist.html">Add to wishlist</a><a class="ps-product__link" href="compare.html">Add to Compare</a></div>
                             </div>
-                            </form>
+
                         </div>
                     </div>
                     <div class="ps-product__content">
@@ -314,8 +315,7 @@
                                             <div class="ps-product__actions">
                                                 <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="#"><i class="fa fa-heart-o"></i></a></div>
                                                 <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Quick view"><a href="#" data-toggle="modal" data-target="#popupQuickview"><i class="fa fa-search"></i></a></div>
-                                                <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Add to cart"><a href="#" data-toggle="modal" data-target="#popupAddcart"><i class="fa fa-shopping-basket"></i></a></div>
-                                            </div>
+                                                <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Add to cart"><a href="javascript:;" onclick="loadProductModal('{{ $relatedProduct->id }}')"><i class="fa fa-shopping-basket"></i></a></div>                                            </div>
                                             <div class="ps-product__badge">
                                                 <div class="ps-badge ps-badge--category">{{ $relatedProduct->category->name }}</div>
                                             </div>
@@ -343,12 +343,11 @@
                                                 <div class="ps-product__quantity">
                                                     <div class="def-number-input number-input safari_only">
                                                         <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                        <input class="quantity" min="0" name="qty" value="1" type="number" />
+                                                        <input class="quantity" min="0" name="quantity" value="1" type="number" />
                                                         <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
                                                     </div>
                                                 </div>
-                                                <div class="ps-product__cart"> <a class="ps-btn ps-btn--warning" href="#" data-toggle="modal" data-target="#popupAddcart">Add to cart</a></div>
-                                                <div class="ps-product__item cart" data-toggle="tooltip" data-placement="left" title="Add to cart"><a href="#"><i class="fa fa-shopping-basket"></i></a></div>
+                                                <div class="ps-product__item cart" data-toggle="tooltip" data-placement="left" title="Add to cart"><a href="javascript:;" onclick="loadProductModal('{{ $relatedProduct->id }}')"><i class="fa fa-shopping-basket"></i></a></div>
                                                 <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></div>
                                                 <div class="ps-product__item rotate" data-toggle="tooltip" data-placement="left" title="Add to compare"><a href="compare.html"><i class="fa fa-align-left"></i></a></div>
                                             </div>
@@ -422,6 +421,51 @@
                 $('#v_total_price').text("{{ config('settings.site_currency_icon') }}" + totalPrice);
 
             }
+
+            $('.v_submit_button').on('click', function (e){
+                e.preventDefault();
+                $('#v_add_to_cart_form').submit();
+            })
+
+            // Add To Cart Function
+            $('#v_add_to_cart_form').on('submit', function (e){
+                e.preventDefault();
+
+                //Validation
+                let selectedSize = $('select[name="product_size"] option:selected');
+                console.log($('select[name="product_size"] option:selected').val())
+                if(selectedSize.length > 0){
+                    if($('select[name="product_size"] option:selected').val() === ''){
+                        toastr.error('Lütfen Ürün Boyutu Seçiniz');
+                        console.error('Lütfen Ürün Boyutu Seçiniz');
+                        return;
+                    }
+                }
+
+                let formData = $(this).serialize();
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("add-to-cart") }}',
+                    data: formData,
+                    beforeSend: function () {
+                        $('.v_submit_button').attr('disabled', true).html('<span class="loader"></span>Ekleniyor...')
+                    },
+                    success: function (response) {
+                        updateSidebarCart();
+                        toastr.success(response.message)
+                    },
+                    error: function (xhr, status, error) {
+                        let errorMessage = xhr.responseJSON.message;
+                        toastr.error(errorMessage)
+                    },
+                    complete: function () {
+                        setTimeout(() => {
+                            $('.v_submit_button').html('Sepete Ekle').attr('disabled', false);
+                        }, 1000);
+                    }
+                })
+            })
+
 
         })
     </script>

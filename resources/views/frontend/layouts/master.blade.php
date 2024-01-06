@@ -31,7 +31,6 @@
     @stack('css')
 
 </head>
-
 <body>
 <div class="ps-page">
     <header class="ps-header ps-header--2">

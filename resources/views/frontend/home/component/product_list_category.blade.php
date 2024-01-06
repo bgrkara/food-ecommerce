@@ -66,8 +66,7 @@
                                                                     <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
                                                                 </div>
                                                             </div>
-                                                            <div class="ps-product__cart"> <a class="ps-btn ps-btn--warning" href="#" data-toggle="modal" data-target="#popupAddcart">Add to cart</a></div>
-                                                            <div class="ps-product__item cart" data-toggle="tooltip" data-placement="left" title="Add to cart"><a href="#"><i class="fa fa-shopping-basket"></i></a></div>
+                                                            <div class="ps-product__item cart" data-toggle="tooltip" data-placement="left" title="Add to cart"><a href="javascript:;" onclick="loadProductModal('{{ $product->id }}')"><i class="fa fa-shopping-basket"></i></a></div>
                                                             <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></div>
                                                             <div class="ps-product__item rotate" data-toggle="tooltip" data-placement="left" title="Add to compare"><a href="compare.html"><i class="fa fa-align-left"></i></a></div>
                                                         </div>
