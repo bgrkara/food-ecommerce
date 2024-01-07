@@ -72,7 +72,7 @@
                         <li><a class="ps-header__item" href="{{ route('login') }}" id="login-modal"><i class="icon-user"></i></a>
                         </li>
                         <li><a class="ps-header__item" href="wishlist.html"><i class="fa fa-heart-o"></i><span class="badge">3</span></a></li>
-                        <li><a class="ps-header__item" href="#" id="cart-mini"><i class="icon-cart-empty"></i><span class="badge cart_count">{{ count(Cart::content()) }}</span></a>
+                        <li><a class="ps-header__item" href="{{ route('cart.index') }}" id="cart-mini"><i class="icon-cart-empty"></i><span class="badge cart_count">{{ count(Cart::content()) }}</span></a>
                             <div class="ps-cart--mini">
                                 <ul class="ps-cart__items cart-contents">
                                     @foreach(Cart::content() as $cartProduct)
@@ -98,7 +98,7 @@
                                     @endforeach
                                 </ul>
                                 <div class="ps-cart__total"><span>Ara Toplam </span><span class="cart_subtotal">{{ currencyPosition(cartTotal()) }}</span></div>
-                                <div class="ps-cart__footer"><a class="ps-btn ps-btn--outline" href="shopping-cart.html">Sepeti Görüntüle</a><a class="ps-btn ps-btn--warning" href="checkout.html">Hemen Öde</a></div>
+                                <div class="ps-cart__footer"><a class="ps-btn ps-btn--outline" href="{{ route('cart.index') }}">Sepeti Görüntüle</a><a class="ps-btn ps-btn--warning" href="checkout.html">Hemen Öde</a></div>
                             </div>
                         </li>
                     </ul>

@@ -6,11 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class CartController extends Controller
 {
+
+    public function index() : View
+    {
+        return view('frontend.pages.cart-view');
+    }
+
     /**
      * Add Product in Cart
      **/
@@ -75,6 +82,27 @@ class CartController extends Controller
             return response(['status' => 'success', 'message' => 'Ürün Sepetten Kaldırıldı'], 200);
         }catch (\Exception $e){
             return response(['status' => 'error', 'message' => 'Ürün Sepetten Kaldırılırken Sorun Oluştu'], 500);
+        }
+    }
+
+    public function cartQtyUpdate(Request $request) : Response
+    {
+        try {
+            Cart::update($request->rowId, $request->qty);
+            return response(['product_total' => productTotal($request->rowId), 'status' => 'success', 'message' => 'Sepetiniz Güncellendi'], 200);
+        }catch (\Exception $e){
+            logger($e);
+            return response(['status' => 'error', 'message' => 'Birşeyler Ters Gitti Lütfen Sayfayı Yenileyiniz!'], 500);
+        }
+    }
+
+    public function cartDestroy()
+    {
+        try {
+            Cart::destroy();
+            return redirect()->back();
+        }catch (\Exception $e){
+            return response(['status' => 'error', 'message' => 'Birşeyler Ters Gitti Lütfen Sayfayı Yenileyiniz!'], 500);
         }
     }
 
