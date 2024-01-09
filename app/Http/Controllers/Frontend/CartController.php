@@ -8,6 +8,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class CartController extends Controller
@@ -23,8 +24,11 @@ class CartController extends Controller
      **/
     public function addToCart(Request $request)
     {
+        $product = Product::with(['productSizes', 'productOptions'])->findOrFail($request->product_id);
+        if ($product->quantity < $request->quantity){
+            throw ValidationException::withMessages(['Ürün Miktarı Stokta Mevcut Değil']);
+        }
         try {
-            $product = Product::with(['productSizes', 'productOptions'])->findOrFail($request->product_id);
             $productSize = $product->productSizes->where('id', $request->product_size)->first();
             $productOptions = $product->productOptions->whereIn('id', $request->product_option);
 
@@ -87,9 +91,15 @@ class CartController extends Controller
 
     public function cartQtyUpdate(Request $request) : Response
     {
+        $cartItem = Cart::get($request->rowId);
+        $product = Product::findOrFail($cartItem->id);
+
+        if ($product->quantity < $request->qty){
+            return response(['status' => 'error', 'message' => 'Ürün Miktarı Stokta Mevcut Değil', 'qty' => $cartItem->qty]);
+        }
         try {
-            Cart::update($request->rowId, $request->qty);
-            return response(['product_total' => productTotal($request->rowId), 'status' => 'success', 'message' => 'Sepetiniz Güncellendi'], 200);
+            $cart = Cart::update($request->rowId, $request->qty);
+            return response(['product_total' => productTotal($request->rowId), 'qty' => $cart->qty, 'status' => 'success'], 200);
         }catch (\Exception $e){
             logger($e);
             return response(['status' => 'error', 'message' => 'Birşeyler Ters Gitti Lütfen Sayfayı Yenileyiniz!'], 500);

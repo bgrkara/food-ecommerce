@@ -8,6 +8,7 @@
   // Flat Picker
   // --------------------------------------------------------------------
   const flatpickrDate = document.querySelector('#flatpickr-date'),
+    flatExpireDate = document.querySelector('#expireDate'),
     flatpickrTime = document.querySelector('#flatpickr-time'),
     flatpickrDateTime = document.querySelector('#flatpickr-datetime'),
     flatpickrMulti = document.querySelector('#flatpickr-multi'),
@@ -22,6 +23,14 @@
       monthSelectorType: 'static'
     });
   }
+
+    // Coupon Expire Date
+    if (flatExpireDate) {
+        flatExpireDate.flatpickr({
+            monthSelectorType: 'static',
+            dateFormat: 'd-m-Y'
+        });
+    }
 
   // Time
   if (flatpickrTime) {
@@ -50,7 +59,7 @@
   }
 
   // Range
-  if (typeof flatpickrRange != undefined) {
+  if (flatpickrRange) {
     flatpickrRange.flatpickr({
       mode: 'range'
     });
@@ -104,13 +113,13 @@ $(function () {
     bsDatepickerAutoclose = $('#bs-datepicker-autoclose'),
     bsDatepickerInlinedate = $('#bs-datepicker-inline');
 
-  // Basic
-  if (bsDatepickerBasic.length) {
-    bsDatepickerBasic.datepicker({
-      todayHighlight: true,
-      orientation: isRtl ? 'auto right' : 'auto left'
-    });
-  }
+    // Basic
+    if (bsDatepickerBasic.length) {
+        bsDatepickerBasic.datepicker({
+            todayHighlight: true,
+            orientation: isRtl ? 'auto right' : 'auto left'
+        });
+    }
 
   // Format
   if (bsDatepickerFormat.length) {
@@ -204,7 +213,7 @@ $(function () {
       timePicker: true,
       timePickerIncrement: 30,
       locale: {
-        format: 'MM/DD/YYYY h:mm A'
+        format: 'DD/MM/YYYY h:mm A'
       },
       opens: isRtl ? 'left' : 'right'
     });

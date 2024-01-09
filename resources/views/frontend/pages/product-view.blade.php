@@ -79,7 +79,14 @@
                                     <input type="hidden" name="base_price" class="v_base_price"
                                            value="{{ $product->offer_price > 0 ? $product->offer_price : $product->price }}">
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <div class="ps-product__badge"><span class="ps-badge ps-badge--outstock">Stokta</span>
+                                    @if($product->quantity < 10 && $product->quantity !== 0)
+                                        <div class="ps-product__badge"><span class="ps-badge ps-badge--leftstock">Stokta Son {{ $product->quantity }} Ürün</span>
+                                    @elseif($product->quantity === 0)
+                                        <div class="ps-product__badge"><span class="ps-badge ps-badge--outstock">Stokta Yok</span>
+                                    @else
+                                        <div class="ps-product__badge"><span class="ps-badge ps-badge--instock">Stokta Var</span>
+                                    @endif
+
                                 </div>
                                 <div class="ps-product__meta">
                                     @if($product->offer_price > 0)
@@ -133,7 +140,11 @@
                                     @endif
                                 </div>
                                 </form>
-                                <a class="ps-btn ps-btn--warning v_submit_button" href="#">Sepete Ekle</a>
+                                @if($product->quantity === 0)
+                                    <button class="ps-btn ps-btn--none-stock" type="button" readonly>Stokta Yok</button>
+                                @else
+                                    <a class="ps-btn ps-btn--warning v_submit_button" href="#">Sepete Ekle</a>
+                                @endif
                                 <div class="ps-product__variations"><a class="ps-product__link" href="wishlist.html">Add to wishlist</a><a class="ps-product__link" href="compare.html">Add to Compare</a></div>
                             </div>
 

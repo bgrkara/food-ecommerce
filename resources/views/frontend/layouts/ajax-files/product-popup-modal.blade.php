@@ -115,8 +115,11 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <button type="submit" class="ps-btn ps-btn--warning modal_cart_button">Sepete Ekle</button>
+                                            @if($product->quantity === 0)
+                                            <button type="button" class="ps-btn ps-btn--none-stock modal_cart_button">Stokta Yok</button>
+                                            @else
+                                            <button type="submit" class="ps-btn ps-btn--warning modal_cart_button">Sepete Ekle</button>
+                                            @endif
                                     </div>
                                 </div>
 

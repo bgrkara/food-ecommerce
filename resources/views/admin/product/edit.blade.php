@@ -185,6 +185,14 @@
                                     <input type="number" name="offer_price" id="productOfferPrice" value="{{ $product->offer_price }}" class="form-control form-control-sm" placeholder="50" aria-label="Tutar">
                                 </div>
                             </div>
+                            <!-- StockQuantity -->
+                            <div class="mb-3">
+                                <label for="productQuantity" class="form-label">Stok Miktarı</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Adet</span>
+                                    <input type="number" name="quantity" id="productQuantity" value="{{ $product->quantity }}" class="form-control form-control-sm" placeholder="50" aria-label="Miktar">
+                                </div>
+                            </div>
 
                         </div>
                     </div>

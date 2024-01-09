@@ -3270,15 +3270,15 @@ textarea.form-control {
 }
 
 .ps-badge.ps-badge--outstock {
-  background-color: #752A2B;
+  background-color: #fd5c63;
 }
 
 .ps-badge.ps-badge--instock {
-  background-color: #12a05c;
+  background-color: #00c16e;
 }
 
 .ps-badge.ps-badge--leftstock {
-  background-color: #00605A;
+  background-color: #3558a4;
 }
 
 .ps-badge.ps-badge--category {

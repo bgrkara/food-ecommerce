@@ -140,10 +140,15 @@
                 let currentValue = parseInt(inputField.val());
                 let rowId = inputField.data('id');
                 inputField.val(currentValue + 1);
-
                 cartQtyUpdate(rowId, inputField.val(), function (response){
-                    let productTotal = response.product_total;
-                    inputField.closest('tr').find('.product-cart-total').text('{{ currencyPosition(":productTotal") }}'.replace(":productTotal", productTotal));
+                    if(response.status === 'success'){
+                        inputField.val(response.qty);
+                        let productTotal = response.product_total;
+                        inputField.closest('tr').find('.product-cart-total').text('{{ currencyPosition(":productTotal") }}'.replace(":productTotal", productTotal));
+                    }else if(response.status === 'error'){
+                        inputField.val(response.qty);
+                        toastr.error(response.message);
+                    }
                 })
             });
             $('.decrement').on('click', function (){
@@ -153,8 +158,14 @@
                 if(inputField.val() > 1){
                     inputField.val(currentValue - 1);
                     cartQtyUpdate(rowId, inputField.val(), function (response){
-                        let productTotal = response.product_total;
-                        inputField.closest('tr').find('.product-cart-total').text('{{ currencyPosition(":productTotal") }}'.replace(":productTotal", productTotal));
+                        if(response.status === 'success'){
+                            inputField.val(response.qty);
+                            let productTotal = response.product_total;
+                            inputField.closest('tr').find('.product-cart-total').text('{{ currencyPosition(":productTotal") }}'.replace(":productTotal", productTotal));
+                        }else if(response.status === 'error'){
+                            inputField.val(response.qty);
+                            toastr.error(response.message);
+                        }
                     })
                 }
             });
@@ -162,7 +173,7 @@
             function cartQtyUpdate(rowId, qty, callback) {
                 $.ajax({
                     method: 'POST',
-                    url: '{{ route('cart.quantity-update') }}',
+                    url: '{{ route("cart.quantity-update") }}',
                     data: {
                         'rowId': rowId,
                         'qty': qty

@@ -62,4 +62,9 @@
     color: #FD8D27;
     margin-bottom: 5px;
 }
+.ps-btn--none-stock{
+    border: 1px solid #fd5c63 !important;
+    background-color: #fd5c63 !important;
+    color: white !important;
+}
 

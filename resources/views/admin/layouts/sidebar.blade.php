@@ -59,7 +59,7 @@
                 <div data-i18n="Slayt Ayarları">Slayt Ayarları</div></a>
         </li>
 
-        <!-- Front Pages -->
+        <!-- Restaurant Menu -->
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-home-cog"></i>
@@ -74,6 +74,21 @@
                 <li class="menu-item">
                     <a href="{{ route('admin.product.index') }}" class="menu-link">
                         <div data-i18n="Ürünler">Ürünler</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Coupon Menu -->
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-shopping-bag"></i>
+                <div data-i18n="E-Ticareti Yönet">E-Ticareti Yönet</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('admin.coupon.index') }}" class="menu-link">
+                        <div data-i18n="Kuponlar">Kuponlar</div>
                     </a>
                 </li>
             </ul>

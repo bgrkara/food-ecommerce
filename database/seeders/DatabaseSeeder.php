@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Coupon;
 use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
          Slider::factory(3)->create();
          $this->call(CategorySeeder::class);
          Product::factory(10)->create();
+         Coupon::factory(3)->create();
 
     }
 }

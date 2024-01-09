@@ -51,7 +51,7 @@
     @stack('css')
     <!-- Page CSS -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/toastr.min.css')}}" />
-    <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/jquery.dataTables.min.css') }}" />
     <!-- Helpers -->
     <script src="{{ asset('admin/assets/vendor/js/helpers.js') }}"></script>
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
@@ -319,7 +319,7 @@
 
 <!-- Main JS -->
 <script src="{{ asset('admin/assets/js/main.js') }}"></script>
-<script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="{{ asset('admin/assets/js/jquery.dataTables.min.js') }}"></script>
 
 <!-- Page JS -->
 <script src="{{ asset('admin/assets/js/app-ecommerce-dashboard.js') }}"></script>
