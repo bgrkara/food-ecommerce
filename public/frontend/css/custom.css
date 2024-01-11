@@ -11,6 +11,19 @@
     top: 3px;
     margin-right: 5px;
 }
+.loader-full-size{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid #103178;
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    position: relative;
+    top: 3px;
+    margin-right: 5px;
+}
 .loader-remove {
     width: 20px;
     height: 20px;
@@ -66,5 +79,11 @@
     border: 1px solid #fd5c63 !important;
     background-color: #fd5c63 !important;
     color: white !important;
+}
+.loader-full-page{
+    display: flex;
+    justify-content: center;
+    top: 300px;
+    position: relative;
 }
 

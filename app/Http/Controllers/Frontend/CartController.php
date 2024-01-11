@@ -83,7 +83,12 @@ class CartController extends Controller
     {
         try {
             Cart::remove($rowId);
-            return response(['status' => 'success', 'message' => 'Ürün Sepetten Kaldırıldı'], 200);
+            return response([
+                'status' => 'success',
+                'message' => 'Ürün Sepetten Kaldırıldı',
+                'cart_total' => cartTotal(),
+                'grand_cart_total' => grandCartTotal()],
+                200);
         }catch (\Exception $e){
             return response(['status' => 'error', 'message' => 'Ürün Sepetten Kaldırılırken Sorun Oluştu'], 500);
         }
@@ -99,7 +104,13 @@ class CartController extends Controller
         }
         try {
             $cart = Cart::update($request->rowId, $request->qty);
-            return response(['product_total' => productTotal($request->rowId), 'qty' => $cart->qty, 'status' => 'success'], 200);
+            return response([
+                'product_total' => productTotal($request->rowId),
+                'qty' => $cart->qty,
+                'status' => 'success',
+                'cart_total' => cartTotal(),
+                'grand_cart_total' => grandCartTotal()],
+                200);
         }catch (\Exception $e){
             logger($e);
             return response(['status' => 'error', 'message' => 'Birşeyler Ters Gitti Lütfen Sayfayı Yenileyiniz!'], 500);
@@ -110,6 +121,7 @@ class CartController extends Controller
     {
         try {
             Cart::destroy();
+            session()->forget('coupon');
             return redirect()->back();
         }catch (\Exception $e){
             return response(['status' => 'error', 'message' => 'Birşeyler Ters Gitti Lütfen Sayfayı Yenileyiniz!'], 500);

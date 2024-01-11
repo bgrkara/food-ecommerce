@@ -5,6 +5,9 @@
             border-top-right-radius: 5px !important;
             border-bottom-right-radius: 5px !important;
         }
+        .codeText{
+            line-height: 40px !important;
+        }
     </style>
 @endpush
 @section('content')
@@ -29,5 +32,7 @@
     </div>
 @endsection
 @push('scripts')
+    <script src="{{ asset('admin/assets/vendor/libs/clipboard/clipboard.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/extended-ui-misc-clipboardjs.js') }}"></script>
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush

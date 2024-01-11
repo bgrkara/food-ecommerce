@@ -1,5 +1,25 @@
 @extends('frontend.layouts.master')
 @section('content')
+@push('css')
+<style>
+    .ps-coupon__text{
+        padding: 5px 36px !important;
+        background-color: #b7d7ca !important;
+        border-radius: 18px !important;
+        font-size: 14px !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .ps-shopping__link p{
+        margin: 0 !important;
+    }
+    .ps-coupon-remove{
+        padding-left: 15px;
+    }
+</style>
+@endpush
+<div class="loader-full-page"></div>
 <div class="ps-shopping">
     <div class="container">
         <ul class="ps-breadcrumb">
@@ -67,23 +87,36 @@
                         </table>
                     </div>
                     @if(Cart::content()->count() > 0)
+                        <form id="coupon_form">
                         <div class="ps-shopping__footer">
-                            <div class="ps-shopping__coupon">
-                                <input class="form-control ps-input" type="text" placeholder="Kupon Kodu">
-                                <button class="ps-btn ps-btn--primary" type="button">Kuponu Onayla</button>
-                            </div>
+                                <div class="ps-shopping__coupon">
+                                    <input class="form-control ps-input" id="coupon_code" name="code" type="text" placeholder="Kupon Kodu">
+                                    <button class="ps-btn ps-btn--primary" type="submit">Kuponu Onayla</button>
+                                </div>
                             <div class="ps-shopping__button">
                                 <a href="{{ route('cart.destroy') }}" class="ps-btn ps-btn--primary" type="button">Tümünü Kaldır</a>
                             </div>
                         </div>
+                        </form>
+
                     @endif
                 </div>
                 <div class="col-12 col-md-5 col-lg-3">
                     <div class="ps-shopping__label">Cart totals</div>
                     <div class="ps-shopping__box">
                         <div class="ps-shopping__row">
-                            <div class="ps-shopping__label">Subtotal</div>
-                            <div class="ps-shopping__price">$120.46</div>
+                            <div class="ps-shopping__label">Ara Toplam</div>
+                            <div class="ps-shopping__price" id="subtotal">{{ currencyPosition(cartTotal()) }}</div>
+                        </div>
+                        <div class="ps-shopping__row">
+                            <div class="ps-shopping__label">İndirim</div>
+                            <div class="ps-shopping__price" id="discount">
+                                @if(isset(session()->get('coupon')['discount']))
+                                    {{ currencyPosition(session()->get('coupon')['discount']) }}
+                                @else
+                                    {{ currencyPosition(0) }}
+                                @endif
+                                </div>
                         </div>
                         <div class="ps-shopping__label">Shipping</div>
                         <div class="ps-shopping__checkbox">
@@ -120,10 +153,25 @@
                             </div>
                         </div>
                         <div class="ps-shopping__row">
-                            <div class="ps-shopping__label">Total</div>
-                            <div class="ps-shopping__price">$120.46</div>
+                            <div class="ps-shopping__label">Toplam</div>
+                            <div class="ps-shopping__price" id="final_total">
+                                @if(isset(session()->get('coupon')['discount']))
+                                    {{ currencyPosition(number_format(cartTotal() - session()->get('coupon')['discount'], 2)) }}
+                                @else
+                                   {{ currencyPosition(number_format(cartTotal(), 2)) }}
+                                @endif
+                            </div>
                         </div>
-                        <div class="ps-shopping__checkout"><a class="ps-btn ps-btn--warning" href="checkout.html">Proceed to checkout</a><a class="ps-shopping__link" href="category-list.html">Continue To Shopping</a></div>
+                        <div class="ps-shopping__checkout"><a class="ps-btn ps-btn--warning" href="checkout.html">Proceed to checkout</a>
+                            <div class="coupon-card">
+                                @if(session()->has('coupon'))
+                                    <div class="ps-shopping__link">
+                                        <p>Kupon Kodu</p>
+                                        <div class="ps-coupon__text"> {{ session()->get('coupon')['code'] }} <a href="javascript:void(0);" class="ps-coupon-remove" id="destroy_coupon"><i class="icon-cross"></i></a></div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,6 +183,7 @@
 @push('scripts')
     <script>
         $(document).ready(function (){
+            let cartTotal = parseInt("{{ cartTotal() }}");
             $('.increment').on('click', function (){
                 let inputField = $(this).siblings('.quantity');
                 let currentValue = parseInt(inputField.val());
@@ -144,7 +193,13 @@
                     if(response.status === 'success'){
                         inputField.val(response.qty);
                         let productTotal = response.product_total;
-                        inputField.closest('tr').find('.product-cart-total').text('{{ currencyPosition(":productTotal") }}'.replace(":productTotal", productTotal));
+                        setTimeout(() => {
+                            inputField.closest('tr').find('.product-cart-total').text('{{ currencyPosition(":productTotal") }}'.replace(":productTotal", productTotal));
+                            // Cart Total
+                            let cartTotal = response.cart_total;
+                            $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
+                            $('#final_total').text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total)
+                        }, 1000);
                     }else if(response.status === 'error'){
                         inputField.val(response.qty);
                         toastr.error(response.message);
@@ -161,7 +216,13 @@
                         if(response.status === 'success'){
                             inputField.val(response.qty);
                             let productTotal = response.product_total;
-                            inputField.closest('tr').find('.product-cart-total').text('{{ currencyPosition(":productTotal") }}'.replace(":productTotal", productTotal));
+                            // Cart Total
+                            setTimeout(() => {
+                                inputField.closest('tr').find('.product-cart-total').text('{{ currencyPosition(":productTotal") }}'.replace(":productTotal", productTotal));
+                                let cartTotal = response.cart_total;
+                                $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
+                                $('#final_total').text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total)
+                            }, 1000);
                         }else if(response.status === 'error'){
                             inputField.val(response.qty);
                             toastr.error(response.message);
@@ -217,6 +278,13 @@
                     },
                     success: function (response) {
                         updateSidebarCart();
+                        // Cart Total
+                        setTimeout(() => {
+                            let cartTotal = response.cart_total;
+                            $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
+                            $('#final_total').text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total)
+                        }, 1000);
+
                     },
                     error: function (xhr, status, error) {
                         let errorMessage = xhr.responseJSON.message;
@@ -228,6 +296,93 @@
                         }, 1000);
                     }
                 });
+            }
+
+            $('#coupon_form').on('submit', function (e){
+                e.preventDefault();
+                let code = $('#coupon_code').val();
+                let subtotal = cartTotal;
+                couponApply(code, subtotal);
+
+            })
+
+            function couponApply(code, subtotal){
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route('apply-coupon') }}',
+                    data: {
+                        code: code,
+                        subtotal: subtotal
+                    },
+                    beforeSend: function (){
+                        $('.loader-full-page').attr('disabled', true).html('<span class="loader-full-size"></span>');
+                        $(".ps-shopping").css("opacity", '0.2');
+                    },
+                    success: function (response){
+                        setTimeout(() => {
+                        $('#discount').text("{{ config('settings.site_currency_icon') }}" + response.discount);
+                        $('#final_total').text("{{ config('settings.site_currency_icon') }}" + response.finalTotal);
+                        let couponCartHtml = `<div class="ps-shopping__link">
+                                    <p>Kupon Kodu</p>
+                                    <div class="ps-coupon__text">${response.coupon_code}<a href="javascript:void(0);" class="ps-coupon-remove" id="destroy_coupon"><i class="icon-cross"></i></a></div>
+                                    </div>`;
+                        $('.coupon-card').html(couponCartHtml);
+
+                            $('#coupon_code').val("");
+                            toastr.success(response.message);
+                        }, 1000);
+
+                    },
+                    error: function (xhr, status, error){
+                        setTimeout(() => {
+                            let errorMessage = xhr.responseJSON.message;
+                            toastr.error(errorMessage)
+                        }, 1000);
+
+                    },
+                    complete: function (){
+                        setTimeout(() => {
+                            $('.loader-full-size').remove();
+                            $(".ps-shopping").css("opacity", '1');
+                        }, 1000);
+                    }
+                })
+            }
+
+            $(document).on('click', '#destroy_coupon', function (){
+                destroyCoupon();
+            })
+
+            function destroyCoupon(){
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route("destroy-coupon") }}',
+                    beforeSend: function(){
+                        $('.loader-full-page').attr('disabled', true).html('<span class="loader-full-size"></span>');
+                        $(".ps-shopping").css("opacity", '0.2');
+                    },
+                    success: function(response){
+                        setTimeout(() => {
+                            $('#discount').text("{{ config('settings.site_currency_icon') }}" + 0)
+                            $('#final_total').text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total);
+                            $('.coupon-card').html("");
+                            $('#coupon_code').val("");
+                            toastr.success(response.message);
+                        }, 1000);
+                    },
+                    error: function(xhr, status, error){
+                        setTimeout(() => {
+                            let errorMessage = xhr.responseJSON.message;
+                            toastr.error(errorMessage)
+                        }, 1000);
+                    },
+                    complete: function(){
+                        setTimeout(() => {
+                            $('.loader-full-size').remove();
+                            $(".ps-shopping").css("opacity", '1');
+                        }, 1000);
+                    }
+                })
             }
 
         })

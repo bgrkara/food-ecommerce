@@ -32,13 +32,24 @@ class CouponDataTable extends DataTable
             ->addColumn('status', function ($query){
                 return ($query->status === 1) ? '<div class="badge bg-gradient-success rounded-pill ms-auto">Aktif</div>' : '<div class="badge bg-gradient-danger rounded-pill ms-auto">Pasif</div>';
             })
+            ->addColumn('code', function ($query){
+                $code = '<span id=clipboard-'.$query->id.'>'.$query->code.'</span>';
+                $codeCopyButton = '<button type="button"
+                                    class="btn btn-icon btn-label-primary waves-effect"
+                                    data-clipboard-action="copy"
+                                    data-clipboard-target="#clipboard-'.$query->id.'"
+                                    style="float: right">
+                                <span class="ti ti-copy"></span>
+                            </button>';
+                return $code;
+            })
             ->addColumn('discount_type', function ($query){
                 return ($query->discount_type === 'percent') ? '<div class="d-flex align-items-center lh-1 me-3 mb-3 mb-sm-0"><span class="badge badge-dot bg-primary me-1"></span> Yüzde İndirim (%)</div>' : '<div class="d-flex align-items-center lh-1 me-3 mb-3 mb-sm-0"><span class="badge badge-dot bg-warning me-1"></span> Tutar İndirim (₺)</div>';
             })
             ->addColumn('expire_date', function ($query){
                 return date('d/m/Y', strtotime($query->expire_date));
             })
-            ->rawColumns(['action', 'status', 'discount_type', 'expire_date'])
+            ->rawColumns(['action', 'status', 'discount_type', 'expire_date', 'code'])
             ->setRowId('id');
     }
 
@@ -60,7 +71,7 @@ class CouponDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -80,7 +91,7 @@ class CouponDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name')->title('Kupon Adı')->width(200),
-            Column::make('code')->title('Kupon Kodu'),
+            Column::make('code')->title('Kupon Kodu')->addClass('codeText'),
             Column::make('quantity')->title('Miktar'),
             Column::make('discount_type')->title('İndirim Türü')->width(130),
             Column::make('discount')->title('İndirim Oranı'),

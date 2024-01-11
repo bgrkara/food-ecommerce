@@ -67,5 +67,11 @@ function removeProductFromSidebar($rowId, $id){
     })
 }
 
+/**  Get Current Amount Cart Total **/
+
+function getCartTotal(){
+    return parseInt('{{ cartTotal() }}');
+}
+
 
 </script>

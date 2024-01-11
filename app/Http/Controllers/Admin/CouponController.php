@@ -46,29 +46,32 @@ class CouponController extends Controller
         toastr()->success('Kupon Eklendi');
         return to_route('admin.coupon.index');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id) : View
     {
-        //
+        $coupon = Coupon::findOrFail($id);
+        return view('admin.coupon.edit', compact('coupon'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CouponCreateRequest $request, string $id)
     {
-        //
+        $coupon = Coupon::findOrFail($id);
+        $coupon->name = $request->name;
+        $coupon->code = $request->code;
+        $coupon->quantity = $request->quantity;
+        $coupon->min_purchase_amount = $request->min_purchase_amount;
+        $coupon->expire_date = date('Y-m-d', strtotime($request->expire_date));
+        $coupon->discount_type = $request->discount_type;
+        $coupon->discount = $request->discount;
+        $coupon->status = $request->status;
+        $coupon->save();
+        toastr()->success('Kupon Güncellendi');
+        return redirect()->back();
     }
 
     /**
@@ -76,6 +79,11 @@ class CouponController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            Coupon::findOrFail($id)->delete();
+            return response(['status' => 'success', 'message' => 'Kupon Silindi!']);
+        }catch (\Exception $e){
+            return response(['status' => 'error', 'message' => $e->getMessage()]);
+        }
     }
 }
