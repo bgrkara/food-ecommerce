@@ -91,6 +91,11 @@
                         <div data-i18n="Kuponlar">Kuponlar</div>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.delivery-area.index') }}" class="menu-link">
+                        <div data-i18n="Teslimat Alanları">Teslimat Alanları</div>
+                    </a>
+                </li>
             </ul>
         </li>
 
