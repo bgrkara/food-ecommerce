@@ -15,8 +15,9 @@ Dashboard CSS
     justify-content: center;
 }
 .dash-bg-white{
-    background-color: #fbfbfb;
+    background-color: #f0f2f5a8;
     border: 1px solid #f0f2f5;
+    border-radius: 30px;
 }
 .dash-pt-4{
     padding: 1.5rem 0 0 0;
@@ -47,8 +48,8 @@ Dashboard CSS
 }
 .menu--mobile li a{
     background-color: #f0f2f5;
-    border-radius: 6px;
-    font-size: 14px !important;
+    border-radius: 11px;
+    font-size: 15px !important;
 }
 .user-name{
     color: #103178;
@@ -64,8 +65,8 @@ Dashboard CSS
     border-radius: 50%;
     display: block;
     position: absolute;
-    right: 145px;
-    bottom: 33px;
+    right: 152px;
+    top: 132px;
     pointer-events: auto;
 }
 .fa-camera-retro:hover{
@@ -73,6 +74,8 @@ Dashboard CSS
 }
 .exit-form{
     background-color: #f0f2f5;
+    border-radius: 11px;
+    margin-top: 8px;
 }
 .exit-form a {
     font-weight: 600;
