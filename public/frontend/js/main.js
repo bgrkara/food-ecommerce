@@ -203,6 +203,9 @@
         $('#ship-address').on('click', function (event) {
             $('.ps-hidden[data-for="ship-address"]').slideToggle();
         });
+        $('#ship-address-create-cancel').on('click', function (event) {
+            $('.ps-hidden[data-for="ship-address"]').slideToggle();
+        });
     }
 
     function openModal() {
@@ -210,13 +213,13 @@
             $(".ps-cart--mini").stop(true, true).addClass("active");
         }, function() {
             $(".ps-cart--mini").stop(true, true).removeClass("active");
-        });  
+        });
 
         $('#login-modal, .ps-login--modal').hover(function(e) {
             $(".ps-login--modal").stop(true, true).addClass("active");
         }, function() {
             $(".ps-login--modal").stop(true, true).removeClass("active");
-        });  
+        });
     }
 
     function getTimeRemaining(endtime) {
@@ -248,12 +251,12 @@
 
         function updateClock() {
             var t = getTimeRemaining(endtime);
-            
+
             var hoursText = ('0' + t.hours).slice(-2);
             var minutesText = ('0' + t.minutes).slice(-2);
             var secondsText = ('0' + t.seconds).slice(-2);
             var daysText = ('00' + t.days).slice(-3);
-            
+
             daysSpan.each(function (index) {
                 if (daysText >= 100) {
                     $(this).find('.first-1st').text(daysText.slice(0, 1));
@@ -336,7 +339,7 @@
         $('.menu--mobile .sub-toggle').on('click', function(e) {
             e.preventDefault();
             var current = $(this).parent('li');
-            
+
             current.children('.sub-menu').slideToggle(350);
             current.siblings().find('.sub-menu').slideUp(350);
             current.toggleClass('active');
@@ -345,7 +348,7 @@
         $('.ps-language-currency .sub-toggle').on('click', function(e) {
             e.preventDefault();
             var current = $(this).parent('li');
-            
+
             current.children('.sub-menu').slideToggle(350);
             current.toggleClass('active');
         });
@@ -492,7 +495,7 @@
     });
 
     $(window).on('load', function() {
-       
+
     });
 })(jQuery);
 

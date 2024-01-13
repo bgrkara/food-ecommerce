@@ -1,6 +1,44 @@
 <script>
-/** Load Product Modal **/
 
+/** Show Sweet Confirm Alert **/
+$('body').on('click', '.delete-item', function (e){
+    e.preventDefault();
+    let url = $(this).attr('href');
+    Swal.fire({
+        title: 'Emin misin?',
+        text: "Silme İşlemini Geri Döndüremezsiniz",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Evet, Silin!',
+        cancelButtonText: 'İptal',
+        customClass: {
+            confirmButton: 'btn btn-primary me-3',
+            cancelButton: 'btn btn-label-secondary'
+        },
+        buttonsStyling: false
+    }).then(function (result) {
+        if (result.value) {
+            $.ajax({
+                method: 'DELETE',
+                url: url,
+                data: {_token: '{{ csrf_token() }}' },
+                success: function (response){
+                    if(response.status === 'success'){
+                        toastr.success(response.message)
+                        window.location.reload();
+                    }else if(response.status === 'error'){
+                        toastr.error(response.message)
+                    }
+                },
+                error: function (error){
+                    console.error(error)
+                }
+            })
+        }
+    });
+})
+
+/** Load Product Modal **/
 function loadProductModal(productId){
     $.ajax({
         method: 'GET',

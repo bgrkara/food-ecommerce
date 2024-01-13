@@ -29,6 +29,9 @@ Route::group(['middleware' => 'auth'], function (){
    Route::put('profile', [FrontendProfileController::class, 'updateProfile'])->name('profile.update');
    Route::put('profile/password', [FrontendProfileController::class, 'updatePassword'])->name('profile.password.update');
    Route::post('profile/avatar', [FrontendProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
+   Route::post('address', [DashboardController::class, 'createAddress'])->name('address.store');
+   Route::put('address/{id}/edit', [DashboardController::class, 'updateAddress'])->name('address.update');
+   Route::delete('address/{id}', [DashboardController::class, 'destroyAddress'])->name('address.destroy');
 });
 
 // Show HomePage Routes

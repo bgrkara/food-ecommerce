@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/home-2.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/sweetalert2.css') }}">
     @stack('css')
 
 </head>
@@ -915,6 +916,7 @@
 <script src="{{ asset('frontend/plugins/slick/slick/slick.min.js') }}"></script>
 <script src="{{ asset('frontend/plugins/noUiSlider/nouislider.min.js') }}"></script>
 <script src="{{ asset('frontend/js/toastr.min.js') }}"></script>
+<script src="{{ asset('frontend/js/sweetalert2.js') }}"></script>
 <!-- custom code-->
 <script src="{{ asset('frontend/js/main.js') }}"></script>
 <!-- Dynamic Message Code / Toastr-->
