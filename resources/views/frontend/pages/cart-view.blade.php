@@ -162,7 +162,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="ps-shopping__checkout"><a class="ps-btn ps-btn--warning" href="checkout.html">Alışverişi Tamamla</a>
+                        <div class="ps-shopping__checkout"><a class="ps-btn ps-btn--warning" href="{{ route('checkout.index') }}">Alışverişi Tamamla</a>
                             <div class="coupon-card">
                                 @if(session()->has('coupon'))
                                     <div class="ps-shopping__link">

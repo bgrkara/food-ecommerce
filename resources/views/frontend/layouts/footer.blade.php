@@ -3,105 +3,19 @@
         <div class="container">
             <div class="row m-0">
                 <div class="col-12 col-sm-4 p-0">
-                    <p class="text-center"><a class="ps-footer__link" href="#"><i class="icon-wallet"></i>100% Money back</a></p>
+                    <p class="text-center"><a class="ps-footer__link" href="#"><i class="icon-wallet"></i>%100 Para İadesi</a></p>
                 </div>
                 <div class="col-12 col-sm-4 p-0">
-                    <p class="text-center"><a class="ps-footer__link" href="#"><i class="icon-bag2"></i>Non-contact shipping</a></p>
+                    <p class="text-center"><a class="ps-footer__link" href="#"><i class="icon-bag2"></i>Temassız Teslimat</a></p>
                 </div>
                 <div class="col-12 col-sm-4 p-0">
-                    <p class="text-center"><a class="ps-footer__link" href="#"><i class="icon-truck"></i>Free delivery for order over $200</a></p>
+                    <p class="text-center"><a class="ps-footer__link" href="#"><i class="icon-truck"></i>300₺ ve Üzeri Siparişlerde Ücretsiz Teslimat</a></p>
                 </div>
             </div>
         </div>
     </div>
     <div class="container">
         <div class="ps-footer__middle">
-            <div class="row ps-footer__category m-0">
-                <div class="col-6 col-md-4 col-lg-2 p-0">
-                    <div class="ps-footer--block">
-                        <h5 class="ps-block__title">Wound Care</h5>
-                        <ul class="ps-block__list">
-                            <li><a href="category-grid.html">Bandages</a></li>
-                            <li><a href="category-grid.html">Gypsum foundations</a></li>
-                            <li><a href="category-grid.html">Patches and tapes</a></li>
-                            <li><a href="category-grid.html">Stomatology</a></li>
-                            <li><a href="category-grid.html">Surgical sutures</a></li>
-                            <li><a href="category-grid.html">Uniforms</a></li>
-                            <li><a href="category-grid.html">Wound healing</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2 p-0">
-                    <div class="ps-footer--block">
-                        <h5 class="ps-block__title">Higiene</h5>
-                        <ul class="ps-block__list">
-                            <li><a href="category-grid.html">Disposable products</a></li>
-                            <li><a href="category-grid.html">Face masks</a></li>
-                            <li><a href="category-grid.html">Gloves</a></li>
-                            <li><a href="category-grid.html">Protective covers</a></li>
-                            <li><a href="category-grid.html">Sterilization</a></li>
-                            <li><a href="category-grid.html">Surgical foils</a></li>
-                            <li><a href="category-grid.html">Uniforms</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2 p-0">
-                    <div class="ps-footer--block">
-                        <h5 class="ps-block__title">Laboratory</h5>
-                        <ul class="ps-block__list">
-                            <li><a href="category-grid.html">Devices</a></li>
-                            <li><a href="category-grid.html">Diagnostic tests</a></li>
-                            <li><a href="category-grid.html">Disinfectants</a></li>
-                            <li><a href="category-grid.html">Dyes</a></li>
-                            <li><a href="category-grid.html">Pipettes</a></li>
-                            <li><a href="category-grid.html">Test-tubes</a></li>
-                            <li><a href="category-grid.html">Tubes</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2 p-0">
-                    <div class="ps-footer--block">
-                        <h5 class="ps-block__title">Tools</h5>
-                        <ul class="ps-block__list">
-                            <li><a href="category-grid.html">Accessories Tools</a></li>
-                            <li><a href="category-grid.html">Blood pressure</a></li>
-                            <li><a href="category-grid.html">Capsules</a></li>
-                            <li><a href="category-grid.html">Dental</a></li>
-                            <li><a href="category-grid.html">Micrscope</a></li>
-                            <li><a href="category-grid.html">Pressure</a></li>
-                            <li><a href="category-grid.html">Sugar level</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2 p-0">
-                    <div class="ps-footer--block">
-                        <h5 class="ps-block__title">Diagnosis</h5>
-                        <ul class="ps-block__list">
-                            <li><a href="category-grid.html">Biopsy tools</a></li>
-                            <li><a href="category-grid.html">Endoscopes</a></li>
-                            <li><a href="category-grid.html">Monitoring</a></li>
-                            <li><a href="category-grid.html">Otoscopes</a></li>
-                            <li><a href="category-grid.html">Oxygen concentrators</a></li>
-                            <li><a href="category-grid.html">Tables and assistants</a></li>
-                            <li><a href="category-grid.html">Thermometer</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2 p-0">
-                    <div class="ps-footer--block p-0">
-                        <h5 class="ps-block__title">Equipment</h5>
-                        <ul class="ps-block__list">
-                            <li><a href="category-grid.html">Blades</a></li>
-                            <li><a href="category-grid.html">Education</a></li>
-                            <li><a href="category-grid.html">Germicidal lamps</a></li>
-                            <li><a href="category-grid.html">Heart Health</a></li>
-                            <li><a href="category-grid.html">Infusion stands</a></li>
-                            <li><a href="category-grid.html">Lighting</a></li>
-                            <li><a href="category-grid.html">Machines</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
             <div class="row m-0">
                 <div class="col-12 col-md-6 p-0">
                     <div class="row m-0">
