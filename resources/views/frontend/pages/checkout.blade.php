@@ -128,6 +128,9 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
+        .ps-checkout .form-check .agree-column{
+            font-size: 14px !important;
+        }
     </style>
 @endpush
 @section('content')
@@ -283,10 +286,10 @@
                                     <div class="check-faq">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="agree-faq" checked>
-                                            <label class="form-check-label" for="agree-faq"> Web sitesinin hüküm ve koşullarını okudum ve kabul ediyorum *</label>
+                                            <label class="form-check-label agree-column" for="agree-faq">Kullanıcı Hizmet Sözleşmesi'ni, Genel Kullanım Koşulları'nı, Aydınlatma Metni ve Açık Rıza Metni'ni okudum ve onaylıyorum.</label>
                                         </div>
                                     </div>
-                                    <button class="ps-btn ps-btn--warning">Siparişi Onayla</button>
+                                    <button class="ps-btn ps-btn--warning" id="procced_pmt_button">Siparişi Onayla</button>
                                 </div>
                             </div>
                         </div>
@@ -403,9 +406,9 @@
                     },
                     success: function (response){
                         deliveryFee.text("{{ currencyPosition(':amount') }}"
-                            .replace(":amount", response.delivery_fee));
+                            .replace(":amount", response.delivery_fee.toFixed(2)));
                         grandTotal.text("{{ currencyPosition(':amount') }}"
-                            .replace(":amount", response.grand_total));
+                            .replace(":amount", response.grand_total.toFixed(2)));
                     },
                     error: function (xhr, status, error){
                         let errorMessage = xhr.responseJSON.message;
@@ -418,6 +421,39 @@
                         }, 500);
                     }
                 })
+            })
+
+            $('#procced_pmt_button').on('click',function (e){
+                e.preventDefault();
+                let address = $('.v_address').find('input.head-location:checked');
+                let id = address.val();
+                if(address.length === 0){
+                    return toastr.error('Lütfen Teslimat Adresi Seçiniz!');
+                }
+
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route('checkout.redirect') }}',
+                    data: {id : id},
+                    beforeSend: function (){
+                        $('.loader-full-page').attr('disabled', true).html('<span class="loader-full-size"></span>');
+                        $(".ps-checkout__main").css("opacity", '0.2');
+                    },
+                    success: function (response){
+                        window.location.href = response.redirect_url;
+                    },
+                    error: function (xhr, status, error){
+                        let errorMessage = xhr.responseJSON.message;
+                        toastr.error(errorMessage);
+                    },
+                    complete: function (){
+                        setTimeout(() => {
+                            $('.loader-full-size').remove();
+                            $(".ps-checkout__main").css("opacity", '1');
+                        }, 500);
+                    }
+                })
+
             })
         })
     </script>
