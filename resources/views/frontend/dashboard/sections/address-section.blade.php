@@ -70,6 +70,15 @@
         .ps-checkout .form-check label {
             font-size: 16px !important;
         }
+        .address-paragraph{
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 18px;
+        }
+        .address-list .ps-product{
+            background-color: #f5f6f8;
+        }
     </style>
 @endpush
 <div class="tab-pane" id="address">
@@ -230,34 +239,38 @@
                 </div>
             @endforeach
             <div class="row">
-                @foreach($userAddresses as $address)
-                    <div class="col-md-6 dash-order address-list dash-bg-white">
-                        <div class="row title-head m-4">
-                            <div class="head-column">
-                                <a class="head-location" href="javascript:void(0);">
-                                    @if($address->type === 'home')
-                                        <i class="fa fa-home" aria-hidden="true"></i> Ev
-                                    @else
-                                        <i class="fa fa-building-o" aria-hidden="true"></i> Ofis
-                                    @endif
-                                </a>
+                @if($userAddresses->count())
+                    @foreach($userAddresses as $address)
+                        <div class="col-md-6 dash-order address-list dash-bg-white">
+                            <div class="row title-head m-4">
+                                <div class="head-column">
+                                    <a class="head-location" href="javascript:void(0);">
+                                        @if($address->type === 'home')
+                                            <i class="fa fa-home" aria-hidden="true"></i> Ev
+                                        @else
+                                            <i class="fa fa-building-o" aria-hidden="true"></i> Ofis
+                                        @endif
+                                    </a>
+                                </div>
+                                <div class="head-column">
+                                    <a class="head-action-btn bg-edit show-edit-section" data-class="edit_section_{{ $address->id }}" href="javascript:void(0);" id="ship-address-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    <a class="head-action-btn bg-remove delete-item" href="{{ route('address.destroy', $address->id) }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                </div>
                             </div>
-                            <div class="head-column">
-                                <a class="head-action-btn bg-edit show-edit-section" data-class="edit_section_{{ $address->id }}" href="javascript:void(0);" id="ship-address-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                <a class="head-action-btn bg-remove delete-item" href="{{ route('address.destroy', $address->id) }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
 
-                        <div class="ps-section--categories mt-4">
-                            <div class="ps-categories__item">
-                                <div class="ps-checkout__row ps-product">
-                                    <p>TESLİMAT ADRESİ </p>
-                                    <div class="ps-product__name">{{ $address->address }} - {{ $address->deliveryArea?->area_name }}</div>
+                            <div class="ps-section--categories mt-4">
+                                <div class="ps-categories__item">
+                                    <div class="ps-checkout__row ps-product">
+                                        <p>TESLİMAT ADRESİ </p>
+                                        <div class="ps-product__name">{{ $address->address }} - {{ $address->deliveryArea?->area_name }}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @else
+                    <p class="address-paragraph">Adres Bilgisi Bulunamadı!</p>
+                @endif
             </div>
         </div>
     </div>

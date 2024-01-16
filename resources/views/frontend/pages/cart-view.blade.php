@@ -102,7 +102,7 @@
                     @endif
                 </div>
                 <div class="col-12 col-md-5 col-lg-3">
-                    <div class="ps-shopping__label">Cart totals</div>
+                    <div class="ps-shopping__label">Sepet Toplamı</div>
                     <div class="ps-shopping__box">
                         <div class="ps-shopping__row">
                             <div class="ps-shopping__label">Ara Toplam</div>

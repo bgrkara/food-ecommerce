@@ -31,7 +31,7 @@ class DashboardController extends Controller
         $address->type = $request->type;
         $address->save();
         toastr()->success('Adresiniz Başarıyla Eklendi');
-        return to_route('dahboard');
+        return redirect()->back();
     }
 
     public function updateAddress(AddressUpdateRequest $request, string $id)
