@@ -192,7 +192,7 @@
                                                     <p>Öde Butonuna Bastığınızda Ödeme İşlemini Tamamlamak İçin Sizi PayPal'ın güvenli ödeme sayfasına yönlendirecektir.</p>
                                                     <p>İşlemin Sorunsuz Bir Biçimde Tamamlanabilmesi İçin Lütfen Sayfası Kapatmayınız!</p>
                                                     <div class="ps-shopping__button">
-                                                        <a href="#" class="ps-btn ps-btn--primary" type="button">{{ currencyPosition($grandTotal) }} Öde</a>
+                                                        <a href="#" class="ps-btn ps-btn--primary payment-card" data-name="paypal" type="button">{{ currencyPosition($grandTotal) }} Öde</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -326,3 +326,37 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function (){
+            $('.payment-card').on('click', function (e){
+                e.preventDefault();
+                let paymentGateway = $(this).data('name');
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route('make-payment') }}',
+                    data: {
+                        payment_gateway : paymentGateway,
+                    },
+                    beforeSend: function (){
+                        $('.loader-full-page').attr('disabled', true).html('<span class="loader-full-size"></span>');
+                        $(".ps-checkout__main").css("opacity", '0.2');
+                    },
+                    success: function (response){
+
+                    },
+                    error: function (xhr, status, error){
+                        let errorMessage = xhr.responseJSON.message;
+                        toastr.error(errorMessage);
+                    },
+                    complete: function (){
+                        setTimeout(() => {
+                            $('.loader-full-size').remove();
+                            $(".ps-checkout__main").css("opacity", '1');
+                        }, 500);
+                    }
+                })
+            })
+        })
+    </script>
+@endpush

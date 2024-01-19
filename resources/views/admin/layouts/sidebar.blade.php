@@ -28,7 +28,7 @@
                       fill="#7367F0" />
                 </svg>
               </span>
-            <span class="app-brand-text demo menu-text fw-bold">Vuexy</span>
+            <span class="app-brand-text demo menu-text fw-bold">Yemeek</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -44,13 +44,13 @@
         <li class="menu-item active">
             <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                <div data-i18n="Dashboards">Dashboards</div>
+                <div data-i18n="Kontrol Paneli">Kontrol Paneli</div>
             </a>
         </li>
 
         <!-- Menu -->
         <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Apps &amp; Pages</span>
+            <span class="menu-header-text">Yönetim Paneli</span>
         </li>
         <!-- Slayt -->
         <li class="menu-item">
@@ -94,6 +94,11 @@
                 <li class="menu-item">
                     <a href="{{ route('admin.delivery-area.index') }}" class="menu-link">
                         <div data-i18n="Teslimat Alanları">Teslimat Alanları</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.payment-setting.index') }}" class="menu-link">
+                        <div data-i18n="Ödeme Yöntemleri">Ödeme Yöntemleri</div>
                     </a>
                 </li>
             </ul>

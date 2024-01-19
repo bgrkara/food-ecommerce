@@ -100,3 +100,15 @@ if (!function_exists('grandCartTotal')){
 
     }
 }
+
+
+/** Generate Invoice Id**/
+
+if (!function_exists('generateInvoiceId')){
+    function generateInvoiceId()
+    {
+        $randomNumber = rand(1, 9999);
+        $currentDateTime = new DateTime();
+        return $randomNumber . $currentDateTime->format("yd") . $currentDateTime->format("s");
+    }
+}

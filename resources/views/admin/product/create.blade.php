@@ -234,7 +234,7 @@
                     <div class="card-header">
                         <h5 class="card-title mb-0">Öne Çıkan Görsel</h5>
                     </div>
-                    <div class="card-body ">
+                    <div class="card-body">
                         <!-- Image -->
                         <div class="product-image-center">
                             <img
@@ -269,7 +269,9 @@
         </form>
     </div>
 @endsection
-@push('scripts')<script src="{{ asset('admin/assets/vendor/libs/dropzone/dropzone.js') }}"></script><script src="{{ asset('admin/assets/js/forms-file-upload.js') }}"></script><script>
+@push('scripts')<script src="{{ asset('admin/assets/vendor/libs/dropzone/dropzone.js') }}"></script>
+<script src="{{ asset('admin/assets/js/forms-file-upload.js') }}"></script>
+<script>
     document.addEventListener('DOMContentLoaded', function (e) {
         (function () {
             // Update/reset user image of account page
