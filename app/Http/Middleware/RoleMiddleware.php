@@ -18,6 +18,6 @@ class RoleMiddleware
         if($request->user()->role === $admin){
             return $next($request);
         }
-        return to_route('dashboard');
+        return to_route('home');
     }
 }

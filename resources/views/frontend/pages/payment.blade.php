@@ -343,7 +343,7 @@
                         $(".ps-checkout__main").css("opacity", '0.2');
                     },
                     success: function (response){
-
+                        window.location.href = response.redirect_url;
                     },
                     error: function (xhr, status, error){
                         let errorMessage = xhr.responseJSON.message;

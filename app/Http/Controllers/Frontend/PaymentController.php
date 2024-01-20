@@ -7,6 +7,7 @@ use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaymentController extends Controller
 {
@@ -30,8 +31,77 @@ class PaymentController extends Controller
         /** Create Order **/
         if ($orderService->createOrder()){
             // Redirect User To The Payment Host
-            return true;
+            switch ($request->payment_gateway){
+                case 'paypal':
+                    return response(['redirect_url' => route('paypal.payment')]);
+                    break;
+                default:
+                    break;
+            }
         }
+    }
+
+    /** Paypal Payment **/
+
+    public function setPaypalConfig() : array {
+        $config = [
+            'mode'    => config('gatewaySettings.paypal_account_mode'),
+            'sandbox' => [
+                'client_id'         => config('gatewaySettings.paypal_api_key'),
+                'client_secret'     => config('gatewaySettings.paypal_secret_key'),
+                'app_id'            => 'APP-80W284485P519543T',
+            ],
+            'live' => [
+                'client_id'         => config('gatewaySettings.paypal_api_key'),
+                'client_secret'     => config('gatewaySettings.paypal_secret_key'),
+                'app_id'            => env('PAYPAL_LIVE_APP_ID', ''),
+            ],
+
+            'payment_action' => 'Sale',
+            'currency'       => config('gatewaySettings.paypal_currency'),
+            'notify_url'     => env('PAYPAL_NOTIFY_URL', ''), // Change this accordingly for your application.
+            'locale'         => 'en_US', // force gateway language  i.e. it_IT, es_ES, en_US ... (for express checkout only)
+            'validate_ssl'   => false, // Validate SSL when creating api client.
+        ];
+        return $config;
+    }
+
+    public function payWithPaypal() {
+
+        $config = $this->setPaypalConfig();
+        $provider = new PayPalClient($config);
+        $provider->getAccessToken();
+
+        /** Calculate Payable Amount **/
+        $grandTotal = session()->get('grand_total');
+        $payableAmount = round($grandTotal * config('gatewaySettings.paypal_rate'));
+
+        $response = $provider->createOrder([
+            'intent' => 'CAPTURE',
+            'application_context' => [
+                'return_url' => route('paypal.success'),
+                'cancel_url' => route('paypal.cancel')
+            ],
+            'purchase_units' => [
+                [
+                    'amount' => [
+                        'currency_code' => config('gatewaySettings.paypal_currency'),
+                        'value' => $payableAmount
+                    ]
+                ]
+            ]
+        ]);
+
+        dd($response);
+
+    }
+
+    public function paypalSuccess() {
+
+    }
+
+    public function paypalCancel() {
+
     }
 
 }
