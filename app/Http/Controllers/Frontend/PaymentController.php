@@ -92,12 +92,33 @@ class PaymentController extends Controller
             ]
         ]);
 
-        dd($response);
+        if(isset($response['id']) && $response['id'] != NULL){
+            foreach ($response['links'] as $link){
+                if ($link['rel'] === 'approve'){
+                    return redirect()->away($link['href']);
+                }else{
+
+                }
+            }
+        }
 
     }
 
-    public function paypalSuccess() {
+    public function paypalSuccess(Request $request) {
+        $config = $this->setPaypalConfig();
+        $provider = new PayPalClient($config);
+        $provider->getAccessToken();
 
+        $response = $provider->capturePaymentOrder($request->token);
+
+        if (isset($response['status']) && $response['status'] === 'COMPLETED'){
+            $orderId = session()->get('order_id');
+            $paymentInfo = [
+              'transaction_id' => $response['purchase_units'][0]['payments']['captures'][0]['id'],
+              'currency' => $response['purchase_units'][0]['payments']['captures'][0]['amount']['currency_code'],
+              'status' =>  $response['purchase_units'][0]['payments']['captures'][0]['status'],
+            ];
+        }
     }
 
     public function paypalCancel() {
