@@ -15,6 +15,13 @@
             padding: 10px;
             margin-right: 30px;
         }
+        .stripe_img_content img {
+            max-width: 200px;
+            max-height: 40px;
+            border: 2px solid #e2e0f3;
+            padding: 10px;
+            margin-right: 30px;
+        }
         .pay-img-content{
             margin-top: 40px !important;
             display: flex;
@@ -69,66 +76,11 @@
                         </div>
 
                         <div class="tab-content">
+                            <!-- PayPal Gateway Content -->
                             @include('admin.payment-setting.sections.paypal')
-                            <div class="tab-pane fade" id="stripe-setting" role="tabpanel">
-                                <form>
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="formtabs-username">Username</label>
-                                            <input type="text" id="formtabs-username" class="form-control" placeholder="john.doe" />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="formtabs-email">Email</label>
-                                            <div class="input-group input-group-merge">
-                                                <input
-                                                    type="text"
-                                                    id="formtabs-email"
-                                                    class="form-control"
-                                                    placeholder="john.doe"
-                                                    aria-label="john.doe"
-                                                    aria-describedby="formtabs-email2" />
-                                                <span class="input-group-text" id="formtabs-email2">@example.com</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-password-toggle">
-                                                <label class="form-label" for="formtabs-password">Password</label>
-                                                <div class="input-group input-group-merge">
-                                                    <input
-                                                        type="password"
-                                                        id="formtabs-password"
-                                                        class="form-control"
-                                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                        aria-describedby="formtabs-password2" />
-                                                    <span class="input-group-text cursor-pointer" id="formtabs-password2"
-                                                    ><i class="ti ti-eye-off"></i
-                                                        ></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-password-toggle">
-                                                <label class="form-label" for="formtabs-confirm-password">Confirm Password</label>
-                                                <div class="input-group input-group-merge">
-                                                    <input
-                                                        type="password"
-                                                        id="formtabs-confirm-password"
-                                                        class="form-control"
-                                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                        aria-describedby="formtabs-confirm-password2" />
-                                                    <span class="input-group-text cursor-pointer" id="formtabs-confirm-password2"
-                                                    ><i class="ti ti-eye-off"></i
-                                                        ></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="pt-4">
-                                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
-                                        <button type="reset" class="btn btn-label-secondary">Cancel</button>
-                                    </div>
-                                </form>
-                            </div>
+                            <!-- Stripe Gateway Content -->
+                            @include('admin.payment-setting.sections.stripe')
+
                             <div class="tab-pane fade" id="form-tabs-social" role="tabpanel">
                                 <form>
                                     <div class="row g-3">

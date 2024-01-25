@@ -68,6 +68,52 @@ class PaymentGatewaySettingController extends Controller
         return redirect()->back();
     }
 
+    public function stripeSettingUpdate(Request $request) {
+        $validateData = $request->validate([
+            'stripe_status' => ['required', 'boolean'],
+            'stripe_country' => ['required'],
+            'stripe_currency' => ['required'],
+            'stripe_rate' => ['required', 'numeric'],
+            'stripe_api_key' => ['required'],
+            'stripe_secret_key' => ['required'],
+        ],
+            [
+                'stripe_status.required' => 'Stripe Durumu Zorunlu Alan!',
+                'stripe_status.boolean' => 'Seçeneklerin Dışında Durum İletemezsiniz',
+                'stripe_country.required' => 'Ülke Bilgisi Zorunlu Alan!',
+                'stripe_currency.required' => 'Para Birimi Zorunlu Alan!',
+                'stripe_rate.required' => 'Lütfen Döviz Kuru Giriniz!',
+                'stripe_rate.numeric' => 'Döviz Kuru Rakam Dışında Girilemez!',
+                'stripe_api_key.required' => 'Lütfen Stripe Client ID Giriniz!',
+                'stripe_secret_key.required' => 'Lütfen Stripe Secret Key Giriniz!',
+            ]);
+
+        if ($request->hasFile('stripe_logo')){
+            $request->validate(
+                ['stripe_logo' => ['nullable', 'image']],
+                ['stripe_logo.image' => 'Logo Alanına Görsel Dışında Dosya Ekleyemezsiniz!']);
+
+            $imagePath = $this->uploadImage($request, 'stripe_logo');
+            PaymentGatewaySetting::updateOrCreate(
+                ['key' => 'stripe_logo'],
+                ['value' => $imagePath],
+            );
+        }
+
+        foreach ($validateData as $key => $value){
+            PaymentGatewaySetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value],
+            );
+        }
+
+        $settingsService = app(PaymentGatewaySettingService::class);
+        $settingsService->clearCachedSettings();
+
+        toastr()->success('Başarıyla Düzenlendi');
+        return redirect()->back();
+    }
+
 
 
 
