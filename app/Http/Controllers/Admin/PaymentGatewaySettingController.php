@@ -26,6 +26,7 @@ class PaymentGatewaySettingController extends Controller
             'paypal_rate' => ['required', 'numeric'],
             'paypal_api_key' => ['required'],
             'paypal_secret_key' => ['required'],
+            'paypal_app_id' => ['required'],
         ],
         [
                 'paypal_status.required' => 'Paypal Durumu Zorunlu Alan!',
@@ -38,6 +39,7 @@ class PaymentGatewaySettingController extends Controller
                 'paypal_rate.numeric' => 'Döviz Kuru Rakam Dışında Girilemez!',
                 'paypal_api_key.required' => 'Lütfen Paypal Client ID Giriniz!',
                 'paypal_secret_key.required' => 'Lütfen Paypal Secret Key Giriniz!',
+                'paypal_app_id.required' => 'Lütfen Paypal App ID Giriniz!',
         ]);
 
         if ($request->hasFile('paypal_logo')){

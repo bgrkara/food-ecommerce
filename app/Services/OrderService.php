@@ -15,7 +15,7 @@ class OrderService {
             $order->invoice_id = generateInvoiceId();
             $order->user_id  = auth()->user()->id;
             $order->address  = session()->get('address');
-            $order->discount  = session()->get('coupon') ? session()->get('coupon')['discount'] : 0;
+            $order->discount  = session()->get('coupon')['discount'] ?? 0;
             $order->delivery_charge  = session()->get('delivery_fee');
             $order->subtotal  = cartTotal();
             $order->grand_total  = grandCartTotal(session()->get('delivery_fee'));
@@ -27,6 +27,7 @@ class OrderService {
             $order->coupon_info  = session()->get('coupon') ? json_encode(session()->get('coupon')) : NULL;
             $order->currency_name  = NULL;
             $order->order_status  = 'pending';
+            $order->delivery_area_id  = session()->get('delivery_area_id');
             $order->save();
 
             foreach (Cart::content() as $product){
@@ -61,7 +62,8 @@ class OrderService {
 
     /** Clear Session Item **/
     function clearSession(){
-
+        Cart::destroy();
+        session()->forget(['coupon', 'address','delivery_fee','order_id','grand_total','delivery_area_id']);
     }
 
 }

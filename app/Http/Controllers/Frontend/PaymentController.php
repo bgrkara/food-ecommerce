@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Events\OrderPaymentUpdateEvent;
+use App\Events\OrderPlaceNotificationEvent;
 use App\Http\Controllers\Controller;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
@@ -22,6 +23,14 @@ class PaymentController extends Controller
         $discount = session()->get('coupon')['discount'] ?? 0;
         $grandTotal = grandCartTotal($delivery);
         return view('frontend.pages.payment', compact('subtotal', 'delivery', 'discount', 'grandTotal'));
+    }
+
+    public function paymentSuccess() : View {
+        return view('frontend.pages.payment-success');
+    }
+
+    public function paymentCancel() : View {
+        return view('frontend.pages.payment-cancel');
     }
 
     public function makePayment(Request $request , OrderService $orderService)
@@ -55,7 +64,7 @@ class PaymentController extends Controller
             'live' => [
                 'client_id'         => config('gatewaySettings.paypal_api_key'),
                 'client_secret'     => config('gatewaySettings.paypal_secret_key'),
-                'app_id'            => env('PAYPAL_LIVE_APP_ID', ''),
+                'app_id'            => config('gatewaySettings.paypal_app_id'),
             ],
 
             'payment_action' => 'Sale',
@@ -97,15 +106,17 @@ class PaymentController extends Controller
             foreach ($response['links'] as $link){
                 if ($link['rel'] === 'approve'){
                     return redirect()->away($link['href']);
-                }else{
-
                 }
+//                else{
+//                    return redirect()->route('payment.cancel')->withErrors(['status' => $response['error']['message']]);
+//                    return redirect()->route('payment.cancel');
+//                }
             }
         }
 
     }
 
-    public function paypalSuccess(Request $request) {
+    public function paypalSuccess(Request $request, OrderService $orderService) {
         $config = $this->setPaypalConfig();
         $provider = new PayPalClient($config);
         $provider->getAccessToken();
@@ -122,11 +133,19 @@ class PaymentController extends Controller
             ];
 
             OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'PayPal');
+            OrderPlaceNotificationEvent::dispatch($orderId);
+
+            /** Clear Session Data **/
+            $orderService->clearSession();
+
+            return redirect()->route('payment.success');
+        }else{
+            return redirect()->route('payment.cancel')->withErrors(['error' => $response['error']['message']]);
         }
     }
 
-    public function paypalCancel() {
-
+    public function paypalCancel(Request $request) {
+        return redirect()->route('payment.cancel');
     }
 
 }

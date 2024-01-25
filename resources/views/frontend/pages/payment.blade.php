@@ -142,6 +142,7 @@
     </style>
 @endpush
 @section('content')
+    <div class="loader-full-page"></div>
     <div class="ps-checkout ps-checkout__main">
         <div class="container">
             <ul class="ps-breadcrumb">
@@ -226,7 +227,7 @@
                             </div>
                             <div class="ps-checkout__row">
                                 <div class="ps-title">Teslimat Ücreti</div>
-                                <div class="ps-product__price" id="delivery_fee">Teslimat Adresi Seçiniz</div>
+                                <div class="ps-product__price" id="delivery_fee">{{ currencyPosition($delivery) }}</div>
                             </div>
                             <div class="ps-checkout__row">
                                 <div class="ps-title">İndirim</div>
@@ -353,7 +354,7 @@
                         setTimeout(() => {
                             $('.loader-full-size').remove();
                             $(".ps-checkout__main").css("opacity", '1');
-                        }, 500);
+                        }, 3000);
                     }
                 })
             })

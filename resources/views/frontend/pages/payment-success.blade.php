@@ -1,0 +1,25 @@
+@extends('frontend.layouts.master')
+@push('css')
+    <style>
+        .ps-page__content img {
+            max-width: 200px;
+        }
+        .ps-page--paymentstatus .ps-page__name { font-size: 85px !important; line-height: 100px !important;}
+    </style>
+@endpush
+@section('content')
+    <div class="ps-page--paymentstatus">
+        <div class="container">
+            <div class="ps-page__content">
+                <div class="row">
+                    <div class="col-12 mt-60"><img src="{{ asset('frontend/img/payment-success.png') }}" alt="payment-success"></div>
+                    <div class="col-12 text-center mb-60">
+                        <h1 class="ps-page__name">Sipariş Başarıyla Verildi!</h1>
+                        <p>Lütfen Alışverişe Devam Edin veya Siparişinizi Kontrol Edin</p>
+                        <div><a class="ps-btn ps-btn--primary" href="{{ route('home') }}">Alışverişe Devam Et</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
