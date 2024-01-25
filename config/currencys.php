@@ -104,7 +104,7 @@
             'Tayvan Yeni Doları' => 'TWD',
             'Tayland Bahtı' => 'THB',
             'Trinidad ve Tobago Doları' => 'TTD',
-            'Türk Lirası' => 'TRL',
+            'Türk Lirası' => 'TRY',
             'Tuvalu Doları' => 'TVD',
             'Ukrayna Grivnası' => 'UAH',
             'Birleşik Krallık Poundu' => 'GBP',

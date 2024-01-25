@@ -139,6 +139,7 @@
         .ps-shopping__button .ps-btn{ max-width: fit-content; border-radius: 5px 25px 5px 25px !important; background-color: #4854d8 !important; border-color: #4854d8 !important;}
         .ps-shopping__button .ps-btn:hover{ color: #4854d8 !important; border-radius: 25px 5px 25px 5px !important; background-color: #FFFFFF !important; border-color: #4854d8 !important;}
         .ps-shopping__button{ display: flex; justify-content: center;}
+        #payment-stripe-content img { max-width: 225px;}
     </style>
 @endpush
 @section('content')
@@ -200,7 +201,18 @@
                                         </div>
                                         <div class="tab-pane fade show" id="payment-stripe-content" role="tabpanel" aria-labelledby="payment-stripe-tab">
                                             <div class="row">
-                                                <p>Tab2</p>
+                                                <div class="row justify-content-center">
+                                                    <div class="mt-40">
+                                                        <img src="{{ asset('frontend/img/icon/stripe-logo.png') }}" alt="">
+                                                    </div>
+                                                    <div class="paypal_content mt-30">
+                                                        <p>Öde Butonuna Bastığınızda Ödeme İşlemini Tamamlamak İçin Sizi Stripe'ın güvenli ödeme sayfasına yönlendirecektir.</p>
+                                                        <p>İşlemin Sorunsuz Bir Biçimde Tamamlanabilmesi İçin Lütfen Sayfası Kapatmayınız!</p>
+                                                        <div class="ps-shopping__button">
+                                                            <a href="#" class="ps-btn ps-btn--primary payment-card" data-name="stripe" type="button">{{ currencyPosition($grandTotal) }} Öde</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade show" id="payment-razopay-content" role="tabpanel" aria-labelledby="payment-razopay-tab">
@@ -357,7 +369,7 @@
                         }, 3000);
                     }
                 })
-            })
+            });
         })
     </script>
 @endpush
