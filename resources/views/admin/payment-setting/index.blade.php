@@ -22,6 +22,13 @@
             padding: 10px;
             margin-right: 30px;
         }
+        .iyzico_img_content img {
+            max-width: 200px;
+            max-height: 40px;
+            border: 2px solid #e2e0f3;
+            padding: 10px;
+            margin-right: 30px;
+        }
         .pay-img-content{
             margin-top: 40px !important;
             display: flex;
@@ -66,7 +73,7 @@
                                     <button
                                         class="nav-link"
                                         data-bs-toggle="tab"
-                                        data-bs-target="#form-tabs-social"
+                                        data-bs-target="#iyzico-setting"
                                         role="tab"
                                         aria-selected="false">
                                         <img class="iyzico-logo" src="{{ asset('admin/assets/img/icons/brands/iyzico.png') }}" alt="">Iyzico
@@ -80,65 +87,8 @@
                             @include('admin.payment-setting.sections.paypal')
                             <!-- Stripe Gateway Content -->
                             @include('admin.payment-setting.sections.stripe')
-
-                            <div class="tab-pane fade" id="form-tabs-social" role="tabpanel">
-                                <form>
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="formtabs-twitter">Twitter</label>
-                                            <input
-                                                type="text"
-                                                id="formtabs-twitter"
-                                                class="form-control"
-                                                placeholder="https://twitter.com/abc" />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="formtabs-facebook">Facebook</label>
-                                            <input
-                                                type="text"
-                                                id="formtabs-facebook"
-                                                class="form-control"
-                                                placeholder="https://facebook.com/abc" />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="formtabs-google">Google+</label>
-                                            <input
-                                                type="text"
-                                                id="formtabs-google"
-                                                class="form-control"
-                                                placeholder="https://plus.google.com/abc" />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="formtabs-linkedin">Linkedin</label>
-                                            <input
-                                                type="text"
-                                                id="formtabs-linkedin"
-                                                class="form-control"
-                                                placeholder="https://linkedin.com/abc" />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="formtabs-instagram">Instagram</label>
-                                            <input
-                                                type="text"
-                                                id="formtabs-instagram"
-                                                class="form-control"
-                                                placeholder="https://instagram.com/abc" />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="formtabs-quora">Quora</label>
-                                            <input
-                                                type="text"
-                                                id="formtabs-quora"
-                                                class="form-control"
-                                                placeholder="https://quora.com/abc" />
-                                        </div>
-                                    </div>
-                                    <div class="pt-4">
-                                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
-                                        <button type="reset" class="btn btn-label-secondary">Cancel</button>
-                                    </div>
-                                </form>
-                            </div>
+                            <!-- Iyzico Gateway Content -->
+                            @include('admin.payment-setting.sections.iyzico')
                         </div>
                     </div>
                 </div>

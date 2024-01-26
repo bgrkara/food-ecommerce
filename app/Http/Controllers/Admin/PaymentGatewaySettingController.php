@@ -114,6 +114,52 @@ class PaymentGatewaySettingController extends Controller
         return redirect()->back();
     }
 
+    public function iyzicoSettingUpdate(Request $request) {
+        $validateData = $request->validate([
+            'iyzico_status' => ['required', 'boolean'],
+            'iyzico_country' => ['required'],
+            'iyzico_currency' => ['required'],
+            'iyzico_rate' => ['required', 'numeric'],
+            'iyzico_api_key' => ['required'],
+            'iyzico_secret_key' => ['required'],
+        ],
+            [
+                'iyzico_status.required' => 'Stripe Durumu Zorunlu Alan!',
+                'iyzico_status.boolean' => 'Seçeneklerin Dışında Durum İletemezsiniz',
+                'iyzico_country.required' => 'Ülke Bilgisi Zorunlu Alan!',
+                'iyzico_currency.required' => 'Para Birimi Zorunlu Alan!',
+                'iyzico_rate.required' => 'Lütfen Döviz Kuru Giriniz!',
+                'iyzico_rate.numeric' => 'Döviz Kuru Rakam Dışında Girilemez!',
+                'iyzico_api_key.required' => 'Lütfen Stripe Client ID Giriniz!',
+                'iyzico_secret_key.required' => 'Lütfen Stripe Secret Key Giriniz!',
+            ]);
+
+        if ($request->hasFile('iyzico_logo')){
+            $request->validate(
+                ['iyzico_logo' => ['nullable', 'image']],
+                ['iyzico_logo.image' => 'Logo Alanına Görsel Dışında Dosya Ekleyemezsiniz!']);
+
+            $imagePath = $this->uploadImage($request, 'iyzico_logo');
+            PaymentGatewaySetting::updateOrCreate(
+                ['key' => 'iyzico_logo'],
+                ['value' => $imagePath],
+            );
+        }
+
+        foreach ($validateData as $key => $value){
+            PaymentGatewaySetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value],
+            );
+        }
+
+        $settingsService = app(PaymentGatewaySettingService::class);
+        $settingsService->clearCachedSettings();
+
+        toastr()->success('Başarıyla Düzenlendi');
+        return redirect()->back();
+    }
+
 
 
 
