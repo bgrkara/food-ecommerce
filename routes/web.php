@@ -89,6 +89,8 @@ Route::middleware('auth')->group([function () {
     Route::get('stripe/success', [PaymentController::class, 'stripeSuccess'])->name('stripe.success');
     Route::get('stripe/cancel', [PaymentController::class, 'stripeCancel'])->name('stripe.cancel');
 
+    /** Iyzıco Routes **/
+    Route::get('iyzico/payment', [PaymentController::class, 'payWithIyzico'])->name('iyzico.payment');
 
 }]);
 

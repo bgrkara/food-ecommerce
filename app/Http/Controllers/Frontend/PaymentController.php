@@ -5,10 +5,27 @@ namespace App\Http\Controllers\Frontend;
 use App\Events\OrderPaymentUpdateEvent;
 use App\Events\OrderPlaceNotificationEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Services\OrderService;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Iyzipay\Model\BasketItem;
+use Iyzipay\Model\BasketItemType;
+use Iyzipay\Model\Buyer;
+use Iyzipay\Model\CheckoutFormInitialize;
+use Iyzipay\Model\PaymentCard;
+use Iyzipay\Model\PaymentChannel;
+use Iyzipay\Model\PaymentGroup;
+use Iyzipay\Model\ThreedsInitialize;
+use Iyzipay\Options;
+use Iyzipay\Request\CreateCheckoutFormInitializeRequest;
+use Iyzipay\Request\CreatePaymentRequest;
+use Iyzipay\Model\Payment;
+use Iyzipay\Model\Locale;
+use Iyzipay\Model\Currency;
+use Iyzipay\Model\Address;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Stripe\Checkout\Session as StripeSession;
 use Stripe\Exception\ApiErrorException;
@@ -26,7 +43,8 @@ class PaymentController extends Controller
         $delivery = session()->get('delivery_fee') ?? 0;
         $discount = session()->get('coupon')['discount'] ?? 0;
         $grandTotal = grandCartTotal($delivery);
-        return view('frontend.pages.payment', compact('subtotal', 'delivery', 'discount', 'grandTotal'));
+        $paymentInput = $this->payWithIyzico();
+        return view('frontend.pages.payment', compact('subtotal', 'delivery', 'discount', 'grandTotal', 'paymentInput'));
     }
 
     public function paymentSuccess() : View {
@@ -40,7 +58,7 @@ class PaymentController extends Controller
     public function makePayment(Request $request , OrderService $orderService)
     {
         $request->validate([
-            'payment_gateway' => ['required', 'string', 'in:paypal,stripe']
+            'payment_gateway' => ['required', 'string', 'in:paypal,stripe,iyzico']
         ]);
         /** Create Order **/
         if ($orderService->createOrder()){
@@ -51,6 +69,9 @@ class PaymentController extends Controller
                     break;
                 case 'stripe':
                     return response(['redirect_url' => route('stripe.payment')]);
+                    break;
+                case 'iyzico':
+                    return response(['redirect_url' => route('iyzico.payment')]);
                     break;
                 default:
                     break;
@@ -223,6 +244,127 @@ class PaymentController extends Controller
     function stripeCancel() {
         $this->transactionFailUpdateStatus('Stripe');
         return redirect()->route('payment.cancel');
+    }
+
+        /** Iyzico Payment **/
+
+
+    public function setIyzicoConfig() : array {
+        $config = [
+            'api_key'         => config('gatewaySettings.iyzico_api_key'),
+            'secret_key'     => config('gatewaySettings.iyzico_secret_key'),
+            'base_url'       => 'https://sandbox-api.iyzipay.com',
+            'locale'         => 'tr_TR', // force gateway language  i.e. it_IT, es_ES, en_US ... (for express checkout only)
+            'validate_ssl'   => false, // Validate SSL when creating api client.
+        ];
+        return $config;
+    }
+
+    function payWithIyzico() {
+
+        /** ConversationId **/
+        $rowId = '';
+        foreach (session()->get('cart')["default"] as $item){ $rowId = $item->rowId; }
+        $payableAmount = grandCartTotal(session()->get('delivery_fee')) * config('gatewaySettings.iyzico_rate');
+
+        $options = new Options();
+        $options->setApiKey($this->setIyzicoConfig()['api_key']);
+        $options->setSecretKey($this->setIyzicoConfig()['secret_key']);
+        $options->setBaseUrl($this->setIyzicoConfig()['base_url']);
+
+        $request = new CreateCheckoutFormInitializeRequest();
+        $request->setLocale(Locale::TR);
+        $request->setConversationId($rowId);
+        $request->setPrice($payableAmount);
+        $request->setPaidPrice($payableAmount);
+        $request->setCurrency(Currency::TL);
+        $request->setBasketId($rowId);
+        $request->setPaymentGroup(PaymentGroup::PRODUCT);
+        $request->setCallbackUrl(route('payment.success'));
+        $request->setEnabledInstallments(array(2, 3, 6, 9));
+
+        $buyer = new Buyer();
+        $buyer->setId(auth()->user()->id);
+        $buyer->setName(session()->get('buyer')['name']);
+        $buyer->setSurname(session()->get('buyer')['surname']);
+        $buyer->setGsmNumber(session()->get('buyer')['phone']);
+        $buyer->setEmail(session()->get('buyer')['email']);
+        $buyer->setIdentityNumber("11111111111");
+        $buyer->setLastLoginDate(date('Y-m-d H:i:s', strtotime('-3 minutes')));
+        $buyer->setRegistrationDate(date('Y-m-d H:i:s', strtotime('-1 day')));
+        $buyer->setRegistrationAddress(session()->get('address'));
+        $buyer->setIp(\request()->ip());
+        $buyer->setCity(session()->get('buyer')['area']);
+        $buyer->setCountry("Turkey");
+        $buyer->setZipCode("06570");
+        $request->setBuyer($buyer);
+
+        $shippingAddress = new Address();
+        $shippingAddress->setContactName(session()->get('buyer')['name'] . ' ' . session()->get('buyer')['surname']);
+        $shippingAddress->setCity(session()->get('buyer')['area']);
+        $shippingAddress->setCountry("Turkey");
+        $shippingAddress->setAddress(session()->get('address'));
+        $shippingAddress->setZipCode("06570");
+        $request->setShippingAddress($shippingAddress);
+
+        $billingAddress = new Address();
+        $billingAddress->setContactName(session()->get('buyer')['name'] . ' ' . session()->get('buyer')['surname']);
+        $billingAddress->setCity(session()->get('buyer')['area']);
+        $billingAddress->setCountry("Turkey");
+        $billingAddress->setAddress(session()->get('address'));
+        $billingAddress->setZipCode("06570");
+        $request->setBillingAddress($billingAddress);
+
+//        $BasketItem = new BasketItem();
+//        $BasketItem->setId("BI103");
+//        $BasketItem->setName("Usb");
+//        $BasketItem->setCategory1("Electronics");
+//        $BasketItem->setCategory2("Usb / Cable");
+//        $BasketItem->setItemType(BasketItemType::PHYSICAL);
+//        $BasketItem->setPrice($payableAmount);
+//        $basketItems[0] = $BasketItem;
+
+        $BasketItem = new BasketItem();
+        foreach (Cart::content() as $item){
+            $product = Product::with(['category'])->findOrFail($item->id);
+            $BasketItem = new BasketItem();
+            $BasketItem->setId($item->id);
+            $BasketItem->setName($item->name);
+            $BasketItem->setCategory1($product->category->name);
+            $BasketItem->setItemType(BasketItemType::PHYSICAL);
+            $optionsPrice = 0;
+            $singleProductPrice = $item->price;
+            $sizePrice = $item->options?->product_size['price'] ?? 0;
+            foreach ($item->options->product_options as $option){
+                $optionsPrice += $option['price'];
+            }
+            $deliveryFee = session()->get('delivery_fee') / count(Cart::content());
+            $discountFee = session()->get('coupon')['discount'] / count(Cart::content());
+            $BasketItem->setPrice((($singleProductPrice + $sizePrice + $optionsPrice) * $item->qty) - $discountFee + $deliveryFee);
+            $basketItems[] = $BasketItem;
+        }
+        $request->setBasketItems($basketItems);
+        $checkoutFormInitialize = CheckoutFormInitialize::create($request, $options);
+        return $checkoutFormInitialize->getCheckoutFormContent();
+
+    }
+
+    private function getBasketItems() : array {
+        if(Cart::content() !== null){
+            $BasketItem = new BasketItem();
+            foreach (Cart::content() as $item){
+                $product = Product::with(['category'])->findOrFail($item->id);
+                $BasketItem = new BasketItem();
+                $BasketItem->setId($item->id);
+                $BasketItem->setName($item->name);
+                $BasketItem->setCategory1($product->category->name);
+                $BasketItem->setItemType(BasketItemType::PHYSICAL);
+                $BasketItem->setPrice($item->price);
+                $basketItems[] = $BasketItem;
+            }
+            return $basketItems;
+        }
+        return [];
     }
 
     function transactionFailUpdateStatus($gatewayName) : void{

@@ -38,7 +38,15 @@ class CheckoutController extends Controller
 
         $address = Address::with('deliveryArea')->findOrFail($request->id);
         $selectedAddress = $address->address. ', Teslimat Alanı: ' . $address->deliveryArea?->area_name;
+        $buyer = [
+          'name' => $address->first_name,
+          'surname' => $address->last_name,
+          'email' => $address->email,
+          'phone' => $address->phone,
+          'area' => $address->deliveryArea?->area_name,
+        ];
         session()->put('address', $selectedAddress);
+        session()->put('buyer', $buyer);
         session()->put('delivery_fee', $address->deliveryArea->delivery_fee);
         session()->put('delivery_area_id', $address->deliveryArea->id);
 

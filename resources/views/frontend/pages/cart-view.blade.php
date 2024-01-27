@@ -193,10 +193,11 @@
                     if(response.status === 'success'){
                         inputField.val(response.qty);
                         let productTotal = response.product_total;
+                        destroyCoupon();
                         setTimeout(() => {
                             inputField.closest('tr').find('.product-cart-total').text('{{ currencyPosition(":productTotal") }}'.replace(":productTotal", productTotal));
                             // Cart Total
-                            let cartTotal = response.cart_total;
+                            cartTotal = response.cart_total;
                             $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
                             $('#final_total').text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total)
                         }, 1000);
@@ -216,10 +217,11 @@
                         if(response.status === 'success'){
                             inputField.val(response.qty);
                             let productTotal = response.product_total;
-                            // Cart Total
+                            destroyCoupon();
                             setTimeout(() => {
                                 inputField.closest('tr').find('.product-cart-total').text('{{ currencyPosition(":productTotal") }}'.replace(":productTotal", productTotal));
-                                let cartTotal = response.cart_total;
+                                // Cart Total
+                                cartTotal = response.cart_total;
                                 $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
                                 $('#final_total').text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total)
                             }, 1000);
@@ -303,7 +305,6 @@
                 let code = $('#coupon_code').val();
                 let subtotal = cartTotal;
                 couponApply(code, subtotal);
-
             })
 
             function couponApply(code, subtotal){
@@ -367,7 +368,7 @@
                             $('#final_total').text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total);
                             $('.coupon-card').html("");
                             $('#coupon_code').val("");
-                            toastr.success(response.message);
+                            // toastr.success(response.message);
                         }, 1000);
                     },
                     error: function(xhr, status, error){
