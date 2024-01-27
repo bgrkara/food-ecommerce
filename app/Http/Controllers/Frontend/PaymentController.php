@@ -339,8 +339,12 @@ class PaymentController extends Controller
                 $optionsPrice += $option['price'];
             }
             $deliveryFee = session()->get('delivery_fee') / count(Cart::content());
-            $discountFee = session()->get('coupon')['discount'] / count(Cart::content());
-            $BasketItem->setPrice((($singleProductPrice + $sizePrice + $optionsPrice) * $item->qty) - $discountFee + $deliveryFee);
+            if (session()->get('coupon') !== NULL){
+                $discountFee = session()->get('coupon')['discount'] / count(Cart::content());
+                $BasketItem->setPrice((($singleProductPrice + $sizePrice + $optionsPrice) * $item->qty) - $discountFee + $deliveryFee);
+            }else{
+                $BasketItem->setPrice((($singleProductPrice + $sizePrice + $optionsPrice) * $item->qty) + $deliveryFee);
+            }
             $basketItems[] = $BasketItem;
         }
         $request->setBasketItems($basketItems);
