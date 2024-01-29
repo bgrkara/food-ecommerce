@@ -6,8 +6,8 @@
             <div class="col-md-6">
                 <label class="form-label" for="paypalStatus">Paypal Durum</label>
                 <select name="paypal_status" id="paypalStatus" class="select2 form-select" data-allow-clear="true">
-                    <option @selected(@$paymentGateway['paypal_status'] === '1') value="1">Aktif</option>
-                    <option @selected(@$paymentGateway['paypal_status'] === '0') value="0">Pasif</option>
+                    <option @selected(@$paymentGateway['paypal_status'] == 1) value="1">Aktif</option>
+                    <option @selected(@$paymentGateway['paypal_status'] == 0) value="0">Pasif</option>
                 </select>
             </div>
             <div class="col-md-6">

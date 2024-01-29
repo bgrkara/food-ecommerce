@@ -6,17 +6,10 @@
             <div class="col-md-6">
                 <label class="form-label" for="stripeStatus">Stripe Durum</label>
                 <select name="stripe_status" id="stripeStatus" class="select2 form-select" data-allow-clear="true">
-                    <option @selected(@$paymentGateway['stripe_status'] === '1') value="1">Aktif</option>
-                    <option @selected(@$paymentGateway['stripe_status'] === '0') value="0">Pasif</option>
+                    <option @selected(@$paymentGateway['stripe_status'] == 1) value="1">Aktif</option>
+                    <option @selected(@$paymentGateway['stripe_status'] == 0) value="0">Pasif</option>
                 </select>
             </div>
-{{--            <div class="col-md-6">--}}
-{{--                <label class="form-label" for="paypalAccount_mode">Stripe Hesap Modu</label>--}}
-{{--                <select name="paypal_account_mode" id="paypalAccount_mode" class="select2 form-select" data-allow-clear="true">--}}
-{{--                    <option @selected(@$paymentGateway['paypal_account_mode'] === 'sandbox') value="sandbox">Sandbox</option>--}}
-{{--                    <option @selected(@$paymentGateway['paypal_account_mode'] === 'live') value="live">Canlı</option>--}}
-{{--                </select>--}}
-{{--            </div>--}}
             <div class="col-md-6">
                 <label class="form-label" for="stripe-country">Stripe Ülke Adı</label>
                 <select name="stripe_country" id="stripe-country" class="select2 form-select" data-allow-clear="true">

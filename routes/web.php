@@ -91,6 +91,8 @@ Route::middleware('auth')->group([function () {
 
     /** Iyzıco Routes **/
     Route::get('iyzico/payment', [PaymentController::class, 'payWithIyzico'])->name('iyzico.payment');
+    Route::get('iyzico/success', [PaymentController::class, 'iyzicoSuccess'])->name('iyzico.success');
+    Route::get('iyzico/cancel', [PaymentController::class, 'iyzicoCancel'])->name('iyzico.cancel');
 
 }]);
 

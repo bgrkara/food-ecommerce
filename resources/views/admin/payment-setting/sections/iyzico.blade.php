@@ -6,17 +6,10 @@
             <div class="col-md-6">
                 <label class="form-label" for="iyzicoStatus">Iyzico Durum</label>
                 <select name="iyzico_status" id="iyzicoStatus" class="select2 form-select" data-allow-clear="true">
-                    <option @selected(@$paymentGateway['iyzico_status'] === '1') value="1">Aktif</option>
-                    <option @selected(@$paymentGateway['iyzico_status'] === '0') value="0">Pasif</option>
+                    <option @selected(@$paymentGateway['iyzico_status'] == 1) value="1">Aktif</option>
+                    <option @selected(@$paymentGateway['iyzico_status'] == 0) value="0">Pasif</option>
                 </select>
             </div>
-{{--            <div class="col-md-6">--}}
-{{--                <label class="form-label" for="paypalAccount_mode">iyzico Hesap Modu</label>--}}
-{{--                <select name="paypal_account_mode" id="paypalAccount_mode" class="select2 form-select" data-allow-clear="true">--}}
-{{--                    <option @selected(@$paymentGateway['paypal_account_mode'] === 'sandbox') value="sandbox">Sandbox</option>--}}
-{{--                    <option @selected(@$paymentGateway['paypal_account_mode'] === 'live') value="live">Canlı</option>--}}
-{{--                </select>--}}
-{{--            </div>--}}
             <div class="col-md-6">
                 <label class="form-label" for="iyzico-country">Iyzico Ülke Adı</label>
                 <select name="iyzico_country" id="iyzico-country" class="select2 form-select" data-allow-clear="true">

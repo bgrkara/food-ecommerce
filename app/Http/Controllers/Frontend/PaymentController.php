@@ -249,7 +249,7 @@ class PaymentController extends Controller
         /** Iyzico Payment **/
 
 
-    public function setIyzicoConfig() : array {
+    private function setIyzicoConfig() : array {
         $config = [
             'api_key'         => config('gatewaySettings.iyzico_api_key'),
             'secret_key'     => config('gatewaySettings.iyzico_secret_key'),
@@ -280,7 +280,7 @@ class PaymentController extends Controller
         $request->setCurrency(Currency::TL);
         $request->setBasketId($rowId);
         $request->setPaymentGroup(PaymentGroup::PRODUCT);
-        $request->setCallbackUrl(route('payment.success'));
+        $request->setCallbackUrl(route('iyzico.success'));
         $request->setEnabledInstallments(array(2, 3, 6, 9));
 
         $buyer = new Buyer();
@@ -315,15 +315,6 @@ class PaymentController extends Controller
         $billingAddress->setZipCode("06570");
         $request->setBillingAddress($billingAddress);
 
-//        $BasketItem = new BasketItem();
-//        $BasketItem->setId("BI103");
-//        $BasketItem->setName("Usb");
-//        $BasketItem->setCategory1("Electronics");
-//        $BasketItem->setCategory2("Usb / Cable");
-//        $BasketItem->setItemType(BasketItemType::PHYSICAL);
-//        $BasketItem->setPrice($payableAmount);
-//        $basketItems[0] = $BasketItem;
-
         $BasketItem = new BasketItem();
         foreach (Cart::content() as $item){
             $product = Product::with(['category'])->findOrFail($item->id);
@@ -353,23 +344,10 @@ class PaymentController extends Controller
 
     }
 
-    private function getBasketItems() : array {
-        if(Cart::content() !== null){
-            $BasketItem = new BasketItem();
-            foreach (Cart::content() as $item){
-                $product = Product::with(['category'])->findOrFail($item->id);
-                $BasketItem = new BasketItem();
-                $BasketItem->setId($item->id);
-                $BasketItem->setName($item->name);
-                $BasketItem->setCategory1($product->category->name);
-                $BasketItem->setItemType(BasketItemType::PHYSICAL);
-                $BasketItem->setPrice($item->price);
-                $basketItems[] = $BasketItem;
-            }
-            return $basketItems;
-        }
-        return [];
-    }
+
+//    function iyzicoSuccess(Request $request, OrderService $orderService) {
+////            return redirect()->route('payment.success');
+//    }
 
     function transactionFailUpdateStatus($gatewayName) : void{
         $orderId = session()->get('order_id');
