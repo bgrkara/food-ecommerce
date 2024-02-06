@@ -1,7 +1,7 @@
 <!-- Menu -->
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-        <a href="index.html" class="app-brand-link">
+        <a href="{{ route('admin.dashboard') }}" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -79,7 +79,22 @@
             </ul>
         </li>
 
-        <!-- Coupon Menu -->
+        <!-- Order Menu -->
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-shopping-bag"></i>
+                <div data-i18n="Siparişler">Siparişler</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('admin.orders.index') }}" class="menu-link">
+                        <div data-i18n="Tüm Siparişler">Tüm Siparişler</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- ECommerce Menu -->
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-shopping-bag"></i>

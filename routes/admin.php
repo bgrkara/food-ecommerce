@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\DeliveryAreaController;
 use App\Http\Controllers\Admin\PaymentGatewaySettingController;
+use App\Http\Controllers\Admin\OrderController;
 
 
 /*
@@ -69,6 +70,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function (){
     // Setting Routes
     Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
     Route::put('general-setting', [SettingController::class, 'updateGeneralSetting'])->name('general-setting.update');
+
+    // Order Routes
+    Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
 
     // Payment Setting Routes
     Route::get('payment-gateway-setting', [PaymentGatewaySettingController::class, 'index'])->name('payment-setting.index');
