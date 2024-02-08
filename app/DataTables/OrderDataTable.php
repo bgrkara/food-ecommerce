@@ -24,25 +24,40 @@ class OrderDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', 'order.action')
             ->addColumn('action', function ($query){
-                $edit = '<a href="'.route('admin.coupon.edit', $query->id).'" type="button" class="btn btn-label-primary waves-effect me-2 mb-1 mt-1"><i class="ti-xs ti ti ti-edit"></i></a>';
-                $delete = '<a href="'.route('admin.coupon.destroy', $query->id).'" type="button" id="confirm-color" class="btn btn-label-danger delete-item waves-effect me-2 mb-1 mt-1"><i class="ti-xs ti ti-trash"></i></a>';
+                $view = '<a href="'.route('admin.orders.show', $query->id).'" type="button" class="btn btn-label-primary waves-effect me-2 mb-1 mt-1" style="padding: 10px !important;"><i class="ti-xs ti ti ti-eye"></i></a>';
+                $status = '<a href="'.route('admin.coupon.edit', $query->id).'" type="button" class="btn btn-label-warning waves-effect me-2 mb-1 mt-1" style="padding: 10px !important;"><i class="ti-xs ti ti ti-truck-delivery"></i></a>';
+                $delete = '<a href="'.route('admin.coupon.destroy', $query->id).'" type="button" id="confirm-color" class="btn btn-label-danger delete-item waves-effect me-2 mb-1 mt-1" style="padding: 10px !important;"><i class="ti-xs ti ti-trash"></i></a>';
 
-                return $edit.$delete;
+                return $view.$status.$delete;
             })
             ->addColumn('user_name', function ($query){
                 return $query->user?->name;
             })
             ->addColumn('order_status', function ($query){
                 if($query->order_status === "delivered"){
-                        return '<div class="badge bg-gradient-success rounded-pill ms-auto">Teslim Edildi</div>';
+                        return '<div class="badge bg-gradient-success rounded-pill ms-auto">Sipariş Teslim Edildi</div>';
                 }elseif($query->order_status === "decline"){
-                    return '<div class="badge bg-gradient-danger rounded-pill ms-auto">İptal Edildi</div>';
+                    return '<div class="badge bg-gradient-danger rounded-pill ms-auto">Sipariş İptal Edildi</div>';
                 }elseif($query->order_status === "pending"){
                     return '<div class="badge bg-gradient-warning rounded-pill ms-auto">Bekleniyor</div>';
+                }elseif($query->order_status === "in_process"){
+                    return '<div class="badge bg-gradient-warning rounded-pill ms-auto">Sipariş Gönderidli</div>';
+                }
+                else{
+                    return '<div class="badge bg-gradient-primary rounded-pill ms-auto">'. $query->order_status .'</div>';
                 }
             })
             ->addColumn('payment_status', function ($query){
-                return ($query->payment_status === "pending") ? '<div class="badge bg-gradient-warning rounded-pill ms-auto">Bekleniyor</div>' : '<div class="badge bg-gradient-success rounded-pill ms-auto">Ödendi</div>';
+                if(strtoupper($query->payment_status) == "COMPLETED"){
+                    return '<div class="badge bg-gradient-success rounded-pill ms-auto">Ödendi</div>';
+                }elseif($query->payment_status === "pending"){
+                    return '<div class="badge bg-gradient-warning rounded-pill ms-auto">Ödeme Bekleniyor</div>';
+                }elseif($query->payment_status === "delivered"){
+                    return '<div class="badge bg-gradient-danger rounded-pill ms-auto">Ödeme İptal Edildi</div>';
+                }
+                else{
+                    return '<div class="badge bg-gradient-primary rounded-pill ms-auto">'. $query->payment_status .'</div>';
+                }
             })
             ->addColumn('product_qty', function ($query){
                 return '<div class="d-flex align-items-center lh-1 me-3 mb-3 mb-sm-0"><span class="badge badge-dot bg-primary me-1"></span>'. $query->product_qty .'</div>';
@@ -104,7 +119,7 @@ class OrderDataTable extends DataTable
             Column::computed('action')->title('Durum')
                 ->exportable(false)
                 ->printable(false)
-                ->width(200)
+                ->width(160)
                 ->addClass('text-center'),
         ];
     }
