@@ -49,4 +49,16 @@ class OrderController extends Controller
         }
 
     }
+
+    public function destroy(string $id) : Response
+    {
+        try {
+            $order = Order::findOrFail($id);
+            $order->delete();
+            return response(['status' => 'success', 'message' => 'Sipariş Kaydı Silindi']);
+        }catch (\Exception $e){
+            logger($e);
+            return response(['status' => 'error' , 'message' => 'Silme İşlemi Gerçekleşirken Hata Oluştu']);
+        }
+    }
 }
