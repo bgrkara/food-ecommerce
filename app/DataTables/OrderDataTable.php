@@ -25,7 +25,7 @@ class OrderDataTable extends DataTable
             ->addColumn('action', 'order.action')
             ->addColumn('action', function ($query){
                 $view = '<a href="'.route('admin.orders.show', $query->id).'" type="button" class="btn btn-label-primary waves-effect me-2 mb-1 mt-1" style="padding: 10px !important;"><i class="ti-xs ti ti ti-eye"></i></a>';
-                $status = '<a href="'.route('admin.coupon.edit', $query->id).'" type="button" class="btn btn-label-warning waves-effect me-2 mb-1 mt-1" style="padding: 10px !important;"><i class="ti-xs ti ti ti-truck-delivery"></i></a>';
+                $status = '<a href="'.route('admin.coupon.edit', $query->id).'" type="button" class="btn btn-label-warning waves-effect me-2 mb-1 mt-1 order_status_btn" data-bs-toggle="modal" data-bs-target="#orderModal" data-id="'. $query->id .'" style="padding: 10px !important;"><i class="ti-xs ti ti ti-truck-delivery"></i></a>';
                 $delete = '<a href="'.route('admin.coupon.destroy', $query->id).'" type="button" id="confirm-color" class="btn btn-label-danger delete-item waves-effect me-2 mb-1 mt-1" style="padding: 10px !important;"><i class="ti-xs ti ti-trash"></i></a>';
 
                 return $view.$status.$delete;
