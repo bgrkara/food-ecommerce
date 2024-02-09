@@ -65,7 +65,7 @@
         <div class="row invoice-preview">
             <!-- Invoice -->
             <div class="col-xl-9 col-md-8 col-12 mb-md-0 mb-4">
-                <div class="card invoice-preview-card">
+                <div class="card invoice-preview-card" id="printable">
                     <div class="card-body">
                         <div
                             class="d-flex justify-content-between flex-xl-row flex-md-column flex-sm-row flex-column m-sm-3 m-0">
@@ -226,25 +226,28 @@
                                 <form action="{{ route('admin.orders.status-update', $order->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
-                                    <div class="mb-3">
-                                        <label for="paymentStatus" class="form-label">Ödeme Durumu</label>
-                                        <select class="form-select" name="payment_status" id="paymentStatus">
-                                            <option @selected($order->payment_status === 'pending') value="pending">Ödeme Bekleniyor</option>
-                                            <option @selected($order->payment_status === 'completed') value="completed">Ödendi</option>
-                                        </select>
+                                    <div class="d-print-none">
+                                        <div class="mb-3">
+                                            <label for="paymentStatus" class="form-label">Ödeme Durumu</label>
+                                            <select class="form-select" name="payment_status" id="paymentStatus">
+                                                <option @selected($order->payment_status === 'pending') value="pending">Ödeme Bekleniyor</option>
+                                                <option @selected($order->payment_status === 'completed') value="completed">Ödendi</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="orderStatus" class="form-label">Sipariş Durumu</label>
+                                            <select class="form-select" name="order_status" id="orderStatus">
+                                                <option @selected($order->order_status === 'pending') value="pending">Bekleniyor</option>
+                                                <option @selected($order->order_status === 'in_process') value="in_process">Ürün Gönderildi</option>
+                                                <option @selected($order->order_status === 'delivered') value="delivered">Teslim Edildi</option>
+                                                <option @selected($order->order_status === 'decline') value="decline">Sipariş İptal Edildi</option>
+                                            </select>
+                                        </div>
+                                        <button class="btn btn-primary d-grid w-100 mb-2 waves-effect waves-light" data-bs-toggle="offcanvas" data-bs-target="#sendInvoiceOffcanvas">
+                                            <span class="d-flex align-items-center justify-content-center text-nowrap"><i class="ti ti-send ti-xs me-2"></i>Sipariş Durumu Güncelle</span>
+                                        </button>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="orderStatus" class="form-label">Sipariş Durumu</label>
-                                        <select class="form-select" name="order_status" id="orderStatus">
-                                            <option @selected($order->order_status === 'pending') value="pending">Bekleniyor</option>
-                                            <option @selected($order->order_status === 'in_process') value="in_process">Ürün Gönderildi</option>
-                                            <option @selected($order->order_status === 'delivered') value="delivered">Teslim Edildi</option>
-                                            <option @selected($order->order_status === 'decline') value="decline">Sipariş İptal Edildi</option>
-                                        </select>
-                                    </div>
-                                    <button class="btn btn-primary d-grid w-100 mb-2 waves-effect waves-light" data-bs-toggle="offcanvas" data-bs-target="#sendInvoiceOffcanvas">
-                                        <span class="d-flex align-items-center justify-content-center text-nowrap"><i class="ti ti-send ti-xs me-2"></i>Sipariş Durumu Güncelle</span>
-                                    </button>
+
                                 </form>
                             </div>
                             <div>
@@ -285,32 +288,12 @@
             <div class="col-xl-3 col-md-4 col-12 invoice-actions">
                 <div class="card">
                     <div class="card-body">
-                        <button
-                            class="btn btn-primary d-grid w-100 mb-2"
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#sendInvoiceOffcanvas">
-                        <span class="d-flex align-items-center justify-content-center text-nowrap"
-                        ><i class="ti ti-send ti-xs me-2"></i>Send Invoice</span
-                        >
-                        </button>
-                        <button class="btn btn-label-secondary d-grid w-100 mb-2">Download</button>
                         <a
-                            class="btn btn-label-secondary d-grid w-100 mb-2"
-                            target="_blank"
-                            href="./app-invoice-print.html">
-                            Print
-                        </a>
-                        <a href="./app-invoice-edit.html" class="btn btn-label-secondary d-grid w-100 mb-2">
-                            Edit Invoice
-                        </a>
-                        <button
-                            class="btn btn-primary d-grid w-100"
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#addPaymentOffcanvas">
-                        <span class="d-flex align-items-center justify-content-center text-nowrap"
-                        ><i class="ti ti-currency-dollar ti-xs me-2"></i>Add Payment</span
-                        >
-                        </button>
+                            class="btn btn-label-primary d-grid w-100 mb-2"
+                            id="print_btn"
+                            href="javascript:void(0)">
+                            <span class="d-flex align-items-center justify-content-center text-nowrap"
+                            ><i class="ti ti-printer ti-xs me-2"></i>Fatura Yazdır</span></a>
                     </div>
                 </div>
             </div>
@@ -318,3 +301,24 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function (){
+            $('#print_btn').on('click', function (){
+                let printContents = $('#printable').html();
+                let printWindow = window.open('', '', 'width=600,height=600');
+                printWindow.document.write(`
+                    <html>
+                        <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/rtl/core.css') }}" />
+                        <body>${printContents}</body>
+                    </html>
+                `);
+                printWindow.document.close();
+                printWindow.print();
+                printWindow.close();
+
+            })
+        })
+    </script>
+@endpush
