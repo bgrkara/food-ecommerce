@@ -91,6 +91,26 @@
                         <div data-i18n="Tüm Siparişler">Tüm Siparişler</div>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.pending-orders') }}" class="menu-link">
+                        <div data-i18n="Bekleyen Siparişler">Bekleyen Siparişler</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.inprocess-orders') }}" class="menu-link">
+                        <div data-i18n="Devam Eden Siparişler">Devam Eden Siparişler</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.delivered-orders') }}" class="menu-link">
+                        <div data-i18n="Teslim Edilen Siparişler">Teslim Edilen Siparişler</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.declined-orders') }}" class="menu-link">
+                        <div data-i18n="İptal Edilen Siparişler">İptal Edilen Siparişler</div>
+                    </a>
+                </li>
             </ul>
         </li>
 
