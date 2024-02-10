@@ -50,6 +50,8 @@
                         @include('frontend.dashboard.sections.user-info-section')
                         <!--Address Info-->
                         @include('frontend.dashboard.sections.address-section')
+                        <!--Orders Info-->
+                        @include('frontend.dashboard.sections.orders-section')
                         <!--Change Password-->
                         @include('frontend.dashboard.change-password')
                     </div>
