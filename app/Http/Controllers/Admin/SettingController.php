@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Services\SettingsService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -42,6 +43,37 @@ class SettingController extends Controller
 
         toastr()->success('Güncelleme İşlemi Başarılı');
         return redirect()->back();
+    }
+
+    public function updatePusherSetting(Request $request) : RedirectResponse
+    {
+
+        $validateData = $request->validate([
+            'pusher_app_id' => ['required'],
+            'pusher_key' => ['required'],
+            'pusher_secret' => ['required'],
+            'pusher_cluster' => ['required', 'max:255'],
+        ],
+            [
+                'site_name.required' => 'Site Adı Alanı Zorunludur.',
+                'site_currency_icon.required' => 'Site Para Birimi Simgesi Alanı Gereklidir.'
+            ]);
+
+        foreach($validateData as $key => $value){
+
+            Setting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+
+        }
+
+        $settingsService = app(SettingsService::class);
+        $settingsService->clearCachedSettings();
+
+        toastr()->success('Güncelleme İşlemi Başarılı');
+        return redirect()->back();
+
     }
 
 
