@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Events\OrderPaymentUpdateEvent;
 use App\Events\OrderPlaceNotificationEvent;
+use App\Events\RTOrderPlacedNotificationEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Product;
 use App\Services\OrderService;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -162,6 +164,7 @@ class PaymentController extends Controller
 
             OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'PayPal');
             OrderPlaceNotificationEvent::dispatch($orderId);
+            RTOrderPlacedNotificationEvent::dispatch(Order::find($orderId));
 
             /** Clear Session Data **/
             $orderService->clearSession();
@@ -230,6 +233,7 @@ class PaymentController extends Controller
 
             OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'Stripe');
             OrderPlaceNotificationEvent::dispatch($orderId);
+            RTOrderPlacedNotificationEvent::dispatch(Order::find($orderId));
 
             /** Clear Session Data **/
             $orderService->clearSession();

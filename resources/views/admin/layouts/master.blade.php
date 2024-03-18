@@ -57,6 +57,11 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('admin/assets/js/config.js') }}"></script>
+    <script>
+        var pusherKey = "{{ config('settings.pusher_key') }}";
+        var pusherCluster = "{{ config('settings.pusher_cluster') }}";
+    </script>
+    @vite(['resources/js/app.js'])
 </head>
 
 <body>
@@ -122,66 +127,92 @@
                         </li>
                         <!--/ Language -->
 
+                        @php
+                            $notifications = \App\Models\OrderPlacedNotification::where('seen', 0)->latest()->take(10)->get();
+                        @endphp
                         <!-- Notification -->
                         <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
                             <a
-                                class="nav-link dropdown-toggle hide-arrow"
+                                class="nav-link dropdown-toggle hide-arrow badge-nt"
                                 href="javascript:void(0);"
                                 data-bs-toggle="dropdown"
                                 data-bs-auto-close="outside"
                                 aria-expanded="false">
                                 <i class="ti ti-bell ti-md"></i>
-                                <span class="badge bg-danger rounded-pill badge-notifications">1</span>
+                                <span class="badge rounded-pill bg-danger text-white badge-notifications">{{ count($notifications) }}</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end py-0">
                                 <li class="dropdown-menu-header border-bottom">
                                     <div class="dropdown-header d-flex align-items-center py-3">
                                         <h5 class="text-body mb-0 me-auto">Bildirimler</h5>
                                         <a
-                                            href="javascript:void(0)"
+                                            href="{{ route('admin.clear-notification') }}"
                                             class="dropdown-notifications-all text-body"
                                             data-bs-toggle="tooltip"
                                             data-bs-placement="top"
-                                            title="Mark all as read"
+                                            title="Tümünü Okundu Olarak İşaretle"
                                         ><i class="ti ti-mail-opened fs-4"></i
                                             ></a>
                                     </div>
                                 </li>
-                                <li class="dropdown-notifications-list scrollable-container">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item list-group-item-action dropdown-notifications-item">
-                                            <div class="d-flex">
-                                                <div class="flex-shrink-0 me-3">
-                                                    <div class="avatar">
-                                <span class="avatar-initial rounded-circle bg-label-success"
-                                ><i class="ti ti-shopping-cart"></i
-                                    ></span>
+
+                                    <li class="dropdown-notifications-list scrollable-container rt-notification">
+                                        @foreach($notifications as $notification)
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0 me-3">
+                                                        <div class="avatar">
+                                                <span class="avatar-initial rounded-circle bg-label-success"
+                                                ><i class="ti ti-shopping-cart"></i
+                                                    ></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <a href="{{ route('admin.orders.show', $notification->order_id) }}" style="color: #5d596c;">
+                                                            <h6 class="mb-1">{{ $notification->message }} 🛒</h6>
+                                                            <small class="text-muted">
+                                                                @php
+                                                                    $createdAt = $notification->created_at;
+                                                                    $notificationDateTime = new DateTime($createdAt);
+                                                                    $currentDateTime = new DateTime();
+
+                                                                    $timeDifference = $currentDateTime->diff($notificationDateTime);
+                                                                     if ($timeDifference->y > 0) {
+                                                                        $formattedTime = $timeDifference->format('%y yıl önce');
+                                                                    } elseif ($timeDifference->m > 0) {
+                                                                        $formattedTime = $timeDifference->format('%m ay önce');
+                                                                    } elseif ($timeDifference->d > 0) {
+                                                                        $formattedTime = $timeDifference->format('%d gün önce');
+                                                                    } elseif ($timeDifference->h > 0) {
+                                                                        $formattedTime = $timeDifference->format('%h saat önce');
+                                                                    } elseif ($timeDifference->i > 0) {
+                                                                        $formattedTime = $timeDifference->format('%i dakika önce');
+                                                                    } else {
+                                                                        $formattedTime = 'Şimdi';
+                                                                    }
+                                                                     echo $formattedTime;
+                                                                @endphp
+                                                            </small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-read">
+                                                            <span class="badge badge-dot"></span></a>
                                                     </div>
                                                 </div>
-                                                <div class="flex-grow-1">
-                                                    <h6 class="mb-1">Whoo! Yeni siparişiniz var 🛒</h6>
-                                                    <p class="mb-0">Toprak Mercan. 1250₺'lik yeni sipariş verdi</p>
-                                                    <small class="text-muted">5 dk önce</small>
-                                                </div>
-                                                <div class="flex-shrink-0 dropdown-notifications-actions">
-                                                    <a href="javascript:void(0)" class="dropdown-notifications-read"
-                                                    ><span class="badge badge-dot"></span
-                                                        ></a>
-                                                    <a href="javascript:void(0)" class="dropdown-notifications-archive"
-                                                    ><span class="ti ti-x"></span
-                                                        ></a>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-menu-footer border-top">
-                                    <a
-                                        href="javascript:void(0);"
-                                        class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40 mb-1 align-items-center">
-                                        Tüm Bildirimler
-                                    </a>
-                                </li>
+                                            </li>
+                                        </ul>
+                                        @endforeach
+                                    </li>
+
+                                    <li class="dropdown-menu-footer border-top">
+                                        <a
+                                            href="{{ route('admin.orders.index') }}"
+                                            class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40 mb-1 align-items-center">
+                                            Tüm Siparişler
+                                        </a>
+                                    </li>
                             </ul>
                         </li>
                         <!--/ Notification -->
