@@ -55,7 +55,7 @@
                         </ul>
                     </div>
                     <ul class="menu-top">
-                        <li class="nav-item"><a class="nav-link" href="about-us.html">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Müşteri Desteği</a></li>
                         <li class="nav-item"><a class="nav-link" href="index-2.html">Order Tracking</a></li>
                         <li class="nav-item"><a class="nav-link" href="blog-sidebar1.html">Blog</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
@@ -72,7 +72,7 @@
                     <ul class="ps-header__icons">
                         <li><a class="ps-header__item" href="{{ route('login') }}" id="login-modal"><i class="icon-user"></i></a>
                         </li>
-                        <li><a class="ps-header__item" href="wishlist.html"><i class="fa fa-heart-o"></i><span class="badge">3</span></a></li>
+                        <li><a class="ps-header__item" href="#"><i class="fa fa-comments-o"></i><span class="badge">3</span></a></li>
                         <li><a class="ps-header__item" href="{{ route('cart.index') }}" id="cart-mini"><i class="icon-cart-empty"></i><span class="badge cart_count">{{ count(Cart::content()) }}</span></a>
                             <div class="ps-cart--mini">
                                 <ul class="ps-cart__items cart-contents">

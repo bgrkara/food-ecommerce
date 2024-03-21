@@ -35,6 +35,7 @@
                             <li><a href="#orders" data-toggle="tab"><i class="fa fa-shopping-basket"></i>Siparişler</a></li>
                             <li><a href="#wishlist" data-toggle="tab"><i class="fa fa-heart-o"></i> İstek Listesi</a></li>
                             <li><a href="#comments" data-toggle="tab"><i class="fa fa-star-o"></i> Yorumlar</a></li>
+                            <li><a href="#messages" data-toggle="tab"><i class="fa fa-comment-o"></i> Mesajlar</a></li>
                             <li><a href="#pass" data-toggle="tab"><i class="fa fa-key"></i> Şifre İşlemleri</a></li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -52,6 +53,8 @@
                         @include('frontend.dashboard.sections.address-section')
                         <!--Orders Info-->
                         @include('frontend.dashboard.sections.orders-section')
+                        <!--Orders Info-->
+                        @include('frontend.dashboard.sections.message-section')
                         <!--Change Password-->
                         @include('frontend.dashboard.change-password')
                     </div>
