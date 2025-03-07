@@ -139,6 +139,13 @@
             </ul>
         </li>
 
+        <!-- Messages -->
+        <li class="menu-item">
+            <a href="{{ route('admin.chat.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-message"></i>
+                <div data-i18n="Mesajlar">Mesajlar</div></a>
+        </li>
+
         <!-- Setting Page -->
         <li class="menu-item">
             <a href="{{ route('admin.setting.index') }}" class="menu-link">

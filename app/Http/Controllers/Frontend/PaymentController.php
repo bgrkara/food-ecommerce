@@ -349,9 +349,9 @@ class PaymentController extends Controller
     }
 
 
-//    function iyzicoSuccess(Request $request, OrderService $orderService) {
-////            return redirect()->route('payment.success');
-//    }
+    function iyzicoSuccess(Request $request, OrderService $orderService) {
+            return redirect()->route('payment.success');
+    }
 
     function transactionFailUpdateStatus($gatewayName) : void{
         $orderId = session()->get('order_id');

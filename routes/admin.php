@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\DeliveryAreaController;
 use App\Http\Controllers\Admin\PaymentGatewaySettingController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ChatController;
 
 
 /*
@@ -87,6 +88,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function (){
 
     // Order Notification Routes
     Route::get('clear-notification', [AdminDashboardController::class, 'clearNotification'])->name('clear-notification');
+
+    // Chat Routes
+    Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
 
     // Payment Setting Routes
     Route::get('payment-gateway-setting', [PaymentGatewaySettingController::class, 'index'])->name('payment-setting.index');
